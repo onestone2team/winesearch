@@ -23,14 +23,15 @@ for i in wine_name:
    elem.send_keys(i)
    elem.send_keys(Keys.RETURN)
 
-   driver.find_element(By.XPATH,"//*[@id='islrg']/div[1]/div[1]").click()
+   # driver.find_element(By.CLASS_NAME,".Q4LuWd").click()
 
    html = driver.page_source
    soup = BS(html,features="html.parser")
 
-   div_img = soup.select_one('.pxAole')
+   div_img = soup.select_one('.OUZ5W')
    img = div_img.select_one('img')['src']
    
    print(img)
    
+
 

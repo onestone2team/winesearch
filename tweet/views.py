@@ -8,11 +8,30 @@ from bs4 import BeautifulSoup as BS
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
+from tweet.serializer import ViewSerializer
+from . import datasave
 import time
+import googletrans
+translator = googletrans.Translator()
+
 # Create your views here.
 
 class ViewList(APIView):
-    pass
+    def get(self, request):
+        
+        winedata = Tweet.objects.all()
+        serializer = ViewSerializer(winedata, many=True)
+        wineset = serializer.data
+        wineclass = []
+        for i in wineset:
+            tagedata=i['tag']
+            data = tagedata.split(" ")
+            result = data[0]
+            tag = datasave.searchwine(result)
+            print(tag)
+        
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 class SaveList(APIView):
     def get(self, request):
@@ -26,7 +45,12 @@ class SaveList(APIView):
             for i in range(len(json_data)):
                 name = json_data[i]["title"]
                 content = json_data[i]["description"]
+                # 와인 구분 시스템
                 tag = json_data[i]["variety"]
+                data = tag.split(" ")
+                result = data[0]
+                winetag = datasave.searchwine(result)
+
                 country = json_data[i]["country"]
 
                 elem = driver.find_element(By.NAME, "q")
@@ -39,9 +63,9 @@ class SaveList(APIView):
                 div_img = soup.select_one('.bRMDJf')
                 img = div_img.select_one('img')['src']
                 
-                tweet = Tweet.objects.create(name = name, content=content, tag=tag, country=country, image=img)
+                tweet = Tweet.objects.create(name = name, content=content, tag=winetag, country=country, image=img)
                 tweet.save()
-                time.sleep(0.3)
+                time.sleep(0.5)
 
         return Response("저장됨")
 
