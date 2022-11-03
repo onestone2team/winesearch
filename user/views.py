@@ -9,11 +9,17 @@ from user.serializer import UserSerializer, UserProfileInfoSerializer
 class UserView(APIView):
     def post(self, request):
         serializer= UserSerializer(data=request.data)
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response({"message": "가입 완료!"}, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        # print(request.password)
+        # password = request.password
+        # password2 = request.password2
+        # if password != password2:
+        #     return Response({"message": "비밀번호가 다릅니다!"}, status=status.HTTP_400_BAD_REQUEST)
+        # else:
 
 
 class UserProfileInfoView(APIView):
@@ -24,13 +30,9 @@ class UserProfileInfoView(APIView):
             if not value:
                 user_info.pop(key)
         serializer = UserProfileInfoSerializer(user, data=user_info, partial=True)
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response({"message": "변경 완료!"}, status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-
-# class MyTokenObtainPairView(TokenObtainPairView):
-#     serializer_class = MyTokenObtainPairSerializer

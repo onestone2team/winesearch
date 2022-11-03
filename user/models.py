@@ -41,15 +41,14 @@ class MyUserManager(BaseUserManager):
 
 class User(AbstractBaseUser):
     username = models.CharField(max_length=100, unique=True)
-    email = models.CharField(
+    email = models.EmailField(
         verbose_name='email address',
-        max_length=255,
     )
-    profile = models.ImageField(upload_to='%y/%m/')
+    profile = models.ImageField(upload_to='%y/%m/', blank=True)
     profilename = models.CharField(max_length=100)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
-
+    
     objects = MyUserManager()
 
     USERNAME_FIELD = 'username'
