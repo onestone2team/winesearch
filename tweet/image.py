@@ -1,35 +1,33 @@
-from urllib.request import urlretrieve
-from urllib.parse import quote_plus    
+from urllib.request import urlretrieve 
 from bs4 import BeautifulSoup as BS    
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
 
-wine_name = input("wine : ")
-wine_name = wine_name.replace('','+')
-i_url = f'https://www.google.com/search?q={wine_name}&source=lnms&tbm=isch&sa=X&ved=2ahUKEwi4rtfAq4_7AhXRq1YBHaI3B7oQ_AUoAnoECAEQBA&biw=967&bih=554&dpr=1.25#imgrc=aWODM-gjNv81jM'
-driver = webdriver.Chrome('C://chromedriver.exe')
+
+wine_name = ["레드와인","화이트와인", "체다치즈", "다람쥐"]
+# wine_name = wine_name.replace(' ','+')
+# i_url = f'https://www.google.com/search?q={wine_name}&source=lnms&tbm=isch&sa=X&ved=2ahUKEwi4rtfAq4_7AhXRq1YBHaI3B7oQ_AUoAnoECAEQBA&biw=967&bih=554&dpr=1.25#imgrc=aWODM-gjNv81jM'
+
+url = "https://www.google.co.kr/imghp?hl=ko&tab=wi&authuser=0&ogbl"
+driver = webdriver.Chrome('chromedriver.exe')
 options = webdriver.ChromeOptions()
-options.add_experimental_option('excludeSwitches', ['enable-logging'])
-driver.get(i_url)
 
-html = driver.page_source
-soup = BS(html,features="html.parser")
+driver.get(url)
 
-img = soup.select('img')
+for i in wine_name:
+   elem = driver.find_element(By.NAME, "q")
+   elem.clear()
+   elem.send_keys(i)
+   elem.send_keys(Keys.RETURN)
 
-image_list = []
-count = 1
+   driver.find_element(By.XPATH,"//*[@id='islrg']/div[1]/div[1]").click()
 
-print("Searching...")
-for i in img:
-   try:
-      image_list.append(i.attrs["src"])
-   except KeyError:
-      image_list.append(i.attrs["data-src"])
+   html = driver.page_source
+   soup = BS(html,features="html.parser")
 
-print("Downloading...")
-for i in image_list:
-   urlretrieve(i,"download/"+wine_name+str(count)+".jpg")
-   count+=1
-
-driver.close()
-print("집에가자")
+   div_img = soup.select_one('.pxAole')
+   img = div_img.select_one('img')['src']
+   
+   print(img)
+   

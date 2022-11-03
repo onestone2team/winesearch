@@ -6,6 +6,7 @@ class Tweet(models.Model):
     content = models.TextField(null = True)
     tag = models.CharField(max_length=50 , null = True)
     country = models.CharField(max_length=30, null = True)
+    image = models.TextField(null = True)
 
     def __str__(self):
         return str(self.name)
