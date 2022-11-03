@@ -2,36 +2,45 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.pagination import PageNumberPagination
+from rest_framework import viewsets
 import json
-from tweet.models import Tweet
 from bs4 import BeautifulSoup as BS    
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from tweet.serializer import ViewSerializer
+from tweet.models import Tweet
 from . import datasave
 import time
 import googletrans
-translator = googletrans.Translator()
+from rest_framework import generics
 
-# Create your views here.
 
-class ViewList(APIView):
+
+
+class PostViewSet(APIView):
+    
     def get(self, request):
-        
-        winedata = Tweet.objects.all()
-        serializer = ViewSerializer(winedata, many=True)
-        wineset = serializer.data
-        wineclass = []
-        for i in wineset:
-            tagedata=i['tag']
-            data = tagedata.split(" ")
-            result = data[0]
-            tag = datasave.searchwine(result)
-            print(tag)
-        
+        pagination = PageNumberPagination()
+        pagination.page_size = 20
+        pagination.page_query_param = 'page'
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        winedata = Tweet.objects.all()
+        p = pagination.paginate_queryset(queryset=winedata, request=request)
+
+        serializer = ViewSerializer(p, many=True)
+
+        return Response(serializer.data)
+
+class ViewWineType(APIView):
+
+    def get(self, request):
+        pass
+
+# 데이터 저장용 CLASS 배포 시 안씀
+translator = googletrans.Translator()
 
 class SaveList(APIView):
     def get(self, request):

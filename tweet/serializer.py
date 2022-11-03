@@ -4,4 +4,4 @@ from tweet.models import Tweet
 class ViewSerializer(serializers.ModelSerializer):
     class Meta :
         model = Tweet
-        fields = ("tag",)
+        fields = "__all__"
