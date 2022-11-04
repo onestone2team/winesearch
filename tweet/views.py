@@ -1,11 +1,11 @@
 from tweet.models import Tweet
-from user.models import UserModel
+from user.models import User
 from . import datasave
 
 
-from tweet.serializers import searchSerializers
+
 from tweet.serializer import ViewSerializer
-from user.serializers import userSerializers
+from user.serializer import UserSerializer
 
 from django.db.models import Q
 from django.shortcuts import render,redirect
@@ -25,18 +25,18 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 import json
-
+import time
 
 # Create your views here.
 
 class tweetAPI(APIView):
     def get(self, request,fromat=None):
-        UserModels=UserModel.objects.all()
-        UserModels=userSerializers(UserModels,many=True)
+        UserModels=User.objects.all()
+        UserModels=UserSerializer(UserModels,many=True)
         return render(request,"search.html")
         # return Response(UserModels.data)
     def post(self,request,format=None):
-        Serializers =userSerializers(data=request.data)
+        Serializers =UserSerializer(data=request.data)
         if Serializers.is_valid():
             Serializers.save()
             return Response(Serializers.data)
@@ -48,10 +48,10 @@ class tweetAPI(APIView):
 class tweetlist(APIView):
     def get(self,request,format=None):
         searchs=Tweet.objects.all()
-        Serializers=searchSerializers(searchs,many=True)
+        Serializers=ViewSerializer(searchs,many=True)
         return Response(Serializers.data)
     def post(self,request,format=None):
-        Serializers =searchSerializers(data=request.data)
+        Serializers =ViewSerializer(data=request.data)
         if Serializers.is_valid():
             Serializers.save()
             return Response(Serializers.data)
@@ -66,7 +66,7 @@ class search(APIView):
         print(searchword)
         if searchword:
             queryset=queryset.filter(Q(name__icontains=searchword)|Q(tag__icontains=searchword)|Q(content__icontains=searchword))
-        serializers=searchSerializers(queryset,many=True)
+        serializers=ViewSerializer(queryset,many=True)
         return Response(serializers.data,status=status.HTTP_200_OK)
 
 class test():
@@ -101,10 +101,6 @@ class ViewWineType(APIView):
 
         serializer = ViewSerializer(p, many=True)
         return Response(serializer.data)
-
-
-# 데이터 저장용 CLASS 배포 시 안씀
-translator = googletrans.Translator()
 
 class SaveList(APIView):
     def get(self, request):
