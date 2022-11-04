@@ -17,9 +17,6 @@ import time
 import googletrans
 from rest_framework import generics
 
-
-
-
 class PostViewSet(APIView):
     
     def get(self, request):
@@ -35,9 +32,18 @@ class PostViewSet(APIView):
         return Response(serializer.data)
 
 class ViewWineType(APIView):
+# 로제와인, 화이트와인, 레드와인, 스파클링와인 
+    def get(self, request, wine_type):
+        pagination = PageNumberPagination()
+        pagination.page_size = 20
+        pagination.page_query_param = 'page'
 
-    def get(self, request):
-        pass
+        winedata = Tweet.objects.filter(tag = wine_type)
+        p = pagination.paginate_queryset(queryset=winedata, request=request)
+
+        serializer = ViewSerializer(p, many=True)
+        return Response(serializer.data)
+
 
 # 데이터 저장용 CLASS 배포 시 안씀
 translator = googletrans.Translator()
