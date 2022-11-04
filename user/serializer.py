@@ -63,9 +63,10 @@ class UserProfileInfoSerializer(serializers.ModelSerializer):
             if password_valid == False:
                 raise serializers.ValidationError("비밀번호를 확인해 주세요!")
             attrs.pop('password2', None)
-        email_valid= emailvaildator(attrs['email'])
-        if email_valid == False:
-            raise serializers.ValidationError("이메일을 확인해 주세요!")
+        if attrs.get("email"):
+            email_valid= emailvaildator(attrs['email'])
+            if email_valid == False:
+                raise serializers.ValidationError("이메일을 확인해 주세요!")
         return super().validate(attrs)
 
     def update(self, instance, validated_data):
