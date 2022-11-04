@@ -3,12 +3,15 @@ from user.models import User
 from rest_framework import status
 from rest_framework.response import Response
 from user.serializer import UserSerializer, UserProfileInfoSerializer
+
 # from rest_framework_simplejwt.views import TokenObtainPairView
 
 # Create your views here.
 class UserView(APIView):
     def post(self, request):
+        print(0)
         serializer= UserSerializer(data=request.data)
+        print(request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response({"message": "가입 완료!"}, status=status.HTTP_201_CREATED)
