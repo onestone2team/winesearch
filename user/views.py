@@ -9,6 +9,7 @@ from user.serializer import UserSerializer, UserProfileInfoSerializer
 # Create your views here.
 class UserView(APIView):
     def post(self, request):
+        print(request.data.get('profile'))
         serializer= UserSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
