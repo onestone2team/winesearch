@@ -22,11 +22,8 @@ class UserProfileInfoView(APIView):
         user = User.objects.get(id=request.user.id)
         user_info = dict()
         for key, value in request.data.items():
-            print(1, key, value)
             if value:
                 user_info.update({key:value})
-                
-                print(2, key, value)
         serializer = UserProfileInfoSerializer(user, data=user_info, partial=True)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
