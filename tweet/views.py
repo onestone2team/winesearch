@@ -1,14 +1,32 @@
-from django.http import HttpResponse
-from tweet.models import TweetModel
+from tweet.models import Tweet
 from user.models import UserModel
-from django.db.models import Q
+from . import datasave
+
+
 from tweet.serializers import searchSerializers
+from tweet.serializer import ViewSerializer
 from user.serializers import userSerializers
+
+from django.db.models import Q
+from django.shortcuts import render,redirect
+from django.http import HttpResponse
+
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from django.shortcuts import render,redirect
 from rest_framework import status
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.pagination import PageNumberPagination
+from rest_framework import viewsets
+from rest_framework import generics
+
+from bs4 import BeautifulSoup as BS    
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+import json
+
+
 # Create your views here.
 
 class tweetAPI(APIView):
@@ -29,7 +47,7 @@ class tweetAPI(APIView):
 
 class tweetlist(APIView):
     def get(self,request,format=None):
-        searchs=TweetModel.objects.all()
+        searchs=Tweet.objects.all()
         Serializers=searchSerializers(searchs,many=True)
         return Response(Serializers.data)
     def post(self,request,format=None):
@@ -40,9 +58,10 @@ class tweetlist(APIView):
         else:
             print(Serializers.errors)
         return Response()
+        
 class search(APIView):
     def get(self,request):
-        queryset = TweetModel.objects.all()
+        queryset = Tweet.objects.all()
         searchword = request.GET.get('search')
         print(searchword)
         if searchword:
@@ -53,66 +72,73 @@ class search(APIView):
 class test():
     def get(request):
         return ('search.html')
+        
+        
+# 추가 수정 내용
+class PostViewSet(APIView):
+    
+    def get(self, request):
+        pagination = PageNumberPagination()
+        pagination.page_size = 20
+        pagination.page_query_param = 'page'
+
+        winedata = Tweet.objects.all()
+        p = pagination.paginate_queryset(queryset=winedata, request=request)
+
+        serializer = ViewSerializer(p, many=True)
+
+        return Response(serializer.data)
+
+class ViewWineType(APIView):
+# 로제와인, 화이트와인, 레드와인, 스파클링와인 
+    def get(self, request, wine_type):
+        pagination = PageNumberPagination()
+        pagination.page_size = 20
+        pagination.page_query_param = 'page'
+
+        winedata = Tweet.objects.filter(tag = wine_type)
+        p = pagination.paginate_queryset(queryset=winedata, request=request)
+
+        serializer = ViewSerializer(p, many=True)
+        return Response(serializer.data)
 
 
+# 데이터 저장용 CLASS 배포 시 안씀
+translator = googletrans.Translator()
 
+class SaveList(APIView):
+    def get(self, request):
+        file_path = "tweet\sample.json"
+        with open(file_path, "r") as json_file:
+            json_data = json.load(json_file)
+            url = "https://www.google.co.kr/imghp?hl=ko&tab=wi&authuser=0&ogbl"
+            driver = webdriver.Chrome('chromedriver.exe')
+            driver.get(url)
 
+            for i in range(len(json_data)):
+                name = json_data[i]["title"]
+                content = json_data[i]["description"]
+                # 와인 구분 시스템
+                tag = json_data[i]["variety"]
+                data = tag.split(" ")
+                result = data[0]
+                winetag = datasave.searchwine(result)
 
+                country = json_data[i]["country"]
 
+                elem = driver.find_element(By.NAME, "q")
+                elem.clear()
+                elem.send_keys(name)
+                elem.send_keys(Keys.RETURN)
+                html = driver.page_source
+                soup = BS(html,features="html.parser")
 
+                div_img = soup.select_one('.bRMDJf')
+                img = div_img.select_one('img')['src']
+                
+                tweet = Tweet.objects.create(name = name, content=content, tag=winetag, country=country, image=img)
+                tweet.save()
+                time.sleep(0.5)
 
+        return Response("저장됨")
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        # UserModels=UserModel.objects.all()
-        # UserModels=userSerializers(UserModels,many=True)
-        # search_keyword = request.POST['search']
-        # print(search_keyword)
-        # if not search_keyword:
-        #     return render(request, 'search.html', {'name': UserModels})
-        # else:
-        #     if len(search_keyword) >= 2 :
-        #         searched = TweetModel.objects.filter(Q(name__icontains=search_keyword)|Q(tag__icontains=search_keyword))              
-        #         for i in searched:
-        #             print(searched)
-        #         return render(request, 'search.html',{'searched': searched})
-        #     if len(search_keyword) <= 1:
-        #         return render(request, 'search.html', {'name': UserModels})
-
-
-
-
-
-
-
-
-
-
-
-
-    # if request.method == "POST":
-    #     search_keyword = request.POST['search']
-    #     print(search_keyword)
-    #     if not search_keyword:
-    #         return redirect('/main')
-    #     else:
-    #         if len(search_keyword) >= 2 :
-    #             searched = TweetModel.objects.filter(Q(name__icontains=search_keyword)|Q(tags__icontains=search_keyword))              
-    #             for i in searched:
-    #                 print(searched)
-    #             return render(request, 'tweet/searhed.html',{'searched': searched})
-    #         if len(search_keyword) <= 1:
-    #             return redirect('/main')
