@@ -1,22 +1,80 @@
-from django.shortcuts import render
+from tweet.models import Tweet
+from user.models import UserModel
+from . import datasave
+
+
+from tweet.serializers import searchSerializers
+from tweet.serializer import ViewSerializer
+from user.serializers import userSerializers
+
+from django.db.models import Q
+from django.shortcuts import render,redirect
+from django.http import HttpResponse
+
+from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import viewsets
-import json
+from rest_framework import generics
+
 from bs4 import BeautifulSoup as BS    
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
-from tweet.serializer import ViewSerializer
-from tweet.models import Tweet
-from . import datasave
-import time
-import googletrans
-from rest_framework import generics
+import json
 
+
+# Create your views here.
+
+class tweetAPI(APIView):
+    def get(self, request,fromat=None):
+        UserModels=UserModel.objects.all()
+        UserModels=userSerializers(UserModels,many=True)
+        return render(request,"search.html")
+        # return Response(UserModels.data)
+    def post(self,request,format=None):
+        Serializers =userSerializers(data=request.data)
+        if Serializers.is_valid():
+            Serializers.save()
+            return Response(Serializers.data)
+        else:
+            print(Serializers.errors)
+        return Response()
+
+
+class tweetlist(APIView):
+    def get(self,request,format=None):
+        searchs=Tweet.objects.all()
+        Serializers=searchSerializers(searchs,many=True)
+        return Response(Serializers.data)
+    def post(self,request,format=None):
+        Serializers =searchSerializers(data=request.data)
+        if Serializers.is_valid():
+            Serializers.save()
+            return Response(Serializers.data)
+        else:
+            print(Serializers.errors)
+        return Response()
+        
+class search(APIView):
+    def get(self,request):
+        queryset = Tweet.objects.all()
+        searchword = request.GET.get('search')
+        print(searchword)
+        if searchword:
+            queryset=queryset.filter(Q(name__icontains=searchword)|Q(tag__icontains=searchword)|Q(content__icontains=searchword))
+        serializers=searchSerializers(queryset,many=True)
+        return Response(serializers.data,status=status.HTTP_200_OK)
+
+class test():
+    def get(request):
+        return ('search.html')
+        
+        
+# 추가 수정 내용
 class PostViewSet(APIView):
     
     def get(self, request):

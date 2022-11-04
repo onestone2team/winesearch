@@ -1,11 +1,20 @@
-from django.urls import path, include
-from . import views
-from django.conf import settings
+
+from django.urls import path,include
+from tweet import views
+from django.conf.urls.static import static
+from django.conf import settings    
+from rest_framework.urlpatterns import format_suffix_patterns
+
+
 
 urlpatterns = [
-
-    path('main/', views.SaveList.as_view(), name='article_view'),
+    path('', views.tweetAPI.as_view(), name="index"),
     path('views/', views.PostViewSet.as_view(), name='View_view'),
     path('views/<str:wine_type>/', views.ViewWineType.as_view(), name='View_view'),
-
+    
+    path('tweetlist/', views.tweetlist.as_view(), name="tweetlist"),
+    path('search/', views.search.as_view(), name="search"),
 ]
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns=format_suffix_patterns(urlpatterns)
+
