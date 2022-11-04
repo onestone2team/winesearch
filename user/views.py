@@ -9,29 +9,24 @@ from user.serializer import UserSerializer, UserProfileInfoSerializer
 # Create your views here.
 class UserView(APIView):
     def post(self, request):
-        print(0)
         serializer= UserSerializer(data=request.data)
-        print(request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response({"message": "가입 완료!"}, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        # print(request.password)
-        # password = request.password
-        # password2 = request.password2
-        # if password != password2:
-        #     return Response({"message": "비밀번호가 다릅니다!"}, status=status.HTTP_400_BAD_REQUEST)
-        # else:
 
 
 class UserProfileInfoView(APIView):
     def put(self, request):
         user = User.objects.get(id=request.user.id)
-        user_info = request.data
-        for key, value in user_info.items():
-            if not value:
-                user_info.pop(key)
+        user_info = dict()
+        for key, value in request.data.items():
+            print(1, key, value)
+            if value:
+                user_info.update({key:value})
+                
+                print(2, key, value)
         serializer = UserProfileInfoSerializer(user, data=user_info, partial=True)
         if serializer.is_valid(raise_exception=True):
             serializer.save()

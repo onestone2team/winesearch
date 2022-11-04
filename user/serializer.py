@@ -19,7 +19,6 @@ def passwordVaildator(password, password2):
         return False
 
 class UserSerializer(serializers.ModelSerializer):
-    print(0)
     password2 = serializers.CharField(max_length=50)
     # print(password2)
     class Meta:
@@ -59,13 +58,14 @@ class UserProfileInfoSerializer(serializers.ModelSerializer):
         fields= ('username', 'email', 'profile', 'profilename', 'password', 'password2')
 
     def validate(self, attrs):
-        password_valid= passwordVaildator(attrs['password'], attrs["password2"])
+        if attrs.get("password") and attrs.get("password2"):
+            password_valid= passwordVaildator(attrs['password'], attrs["password2"])
+            if password_valid == False:
+                raise serializers.ValidationError("비밀번호를 확인해 주세요!")
+            attrs.pop('password2', None)
         email_valid= emailvaildator(attrs['email'])
         if email_valid == False:
             raise serializers.ValidationError("이메일을 확인해 주세요!")
-        if password_valid == False:
-            raise serializers.ValidationError("비밀번호를 확인해 주세요!")
-        attrs.pop('password2', None)
         return super().validate(attrs)
 
     def update(self, instance, validated_data):
