@@ -29,11 +29,10 @@ class MyUserManager(BaseUserManager):
         Creates and saves a superuser with the given email, date of
         birth and password.
         """
-        user = self.create_user(
-            username,
-            password=password,
-            email=email,
-        )
+        user = self.model(
+username=username,
+email=email,
+)
         user.is_admin = True
         user.save(using=self._db)
         return user
@@ -55,9 +54,9 @@ class User(AbstractBaseUser):
     REQUIRED_FIELDS = [
         'password',
         'email',
-        'profilename',
-        'profile'
-        ]
+        # 'profilename',
+        # 'profile'
+    ]
 
     def __str__(self):
         return self.username
