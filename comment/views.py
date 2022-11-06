@@ -17,11 +17,12 @@ class ReviewList(APIView):
     def post(self, request, format=None):
         serializer = CommentSerializer(data = request.data)
         if serializer.is_valid():
-         serializer.save()
-         return Response(serializer.errors, status=status.HTTP_201_CREATED) #작성이 다 완료가 되면 
+            serializer.save()
+            return Response(serializer.errors, status=status.HTTP_201_CREATED) #작성이 다 완료가 되면
         else:
-           print(serializer.errors) 
+            print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) # 작성에 오류가 나면
+
 
 
 
@@ -44,4 +45,5 @@ class Update(APIView):
          comment = get_object_or_404(Comment, id=tweet_id)
          comment.delete()
          return Response(status=status.HTTP_200_OK) 
+
 

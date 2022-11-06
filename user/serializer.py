@@ -18,8 +18,15 @@ def passwordVaildator(password, password2):
     else:
         return False
 
+def imageValidator(profile):
+    if profile == 'None' or profile == 'undefined':
+        return False
+    else:
+        return True
+
 class UserSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(max_length=50)
+    # print(password2)
     class Meta:
         model= User
         fields= "__all__"
@@ -27,10 +34,13 @@ class UserSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         password_valid= passwordVaildator(attrs['password'], attrs["password2"])
         email_valid= emailvaildator(attrs['email'])
+        image_valid= imageValidator(attrs['profile'])
         if email_valid == False:
             raise serializers.ValidationError("이메일을 확인해 주세요!")
         if password_valid == False:
             raise serializers.ValidationError("비밀번호를 확인해 주세요!")
+        if image_valid== False:
+            attrs.update({'profile': 'basic_profile/guest.png'})
         attrs.pop('password2', None)
         # del attrs['password2']
         return super().validate(attrs)
@@ -53,15 +63,18 @@ class UserProfileInfoSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(max_length=50)
     class Meta:
         model= User
-        fields= ('username', 'email', 'profile', 'profilename', 'password')
+        fields= ('username', 'email', 'profile', 'profilename', 'password', 'password2')
 
     def validate(self, attrs):
-        password_valid= passwordVaildator(attrs['password'], attrs["password2"])
-        email_valid= emailvaildator(attrs['email'])
-        if email_valid == False:
-            raise serializers.ValidationError("이메일을 확인해 주세요!")
-        if password_valid == False:
-            raise serializers.ValidationError("비밀번호를 확인해 주세요!")
+        if attrs.get("password") and attrs.get("password2"):
+            password_valid= passwordVaildator(attrs['password'], attrs["password2"])
+            if password_valid == False:
+                raise serializers.ValidationError("비밀번호를 확인해 주세요!")
+            attrs.pop('password2', None)
+        if attrs.get("email"):
+            email_valid= emailvaildator(attrs['email'])
+            if email_valid == False:
+                raise serializers.ValidationError("이메일을 확인해 주세요!")
         return super().validate(attrs)
 
     def update(self, instance, validated_data):
