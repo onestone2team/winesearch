@@ -1,16 +1,11 @@
 from tweet.models import Tweet
 from user.models import User
 from . import datasave
-
-
-
 from tweet.serializer import ViewSerializer
 from user.serializer import UserSerializer
-
 from django.db.models import Q
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -68,12 +63,6 @@ class search(APIView):
             queryset=queryset.filter(Q(name__icontains=searchword)|Q(tag__icontains=searchword)|Q(content__icontains=searchword))
         serializers=ViewSerializer(queryset,many=True)
         return Response(serializers.data,status=status.HTTP_200_OK)
-
-class test():
-    def get(request):
-        return ('search.html')
-        
-        
 # 추가 수정 내용
 class PostViewSet(APIView):
     
@@ -138,3 +127,12 @@ class SaveList(APIView):
 
         return Response("저장됨")
 
+
+def read_tweet(request, no):
+    if request.method == 'GET':
+        click_tweet = Tweet.objects.get(write_no=no)
+        comments = click_tweet.comment_set.all()
+            
+        return render(request, 'tweet/read.html', {'tweet': click_tweet, 'comments': comments})
+        # return render(request, 'tweet/read.html', {'tweet': click_tweet})
+# 긁읽어온느 back 미완성

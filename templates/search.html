@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{%load static %}
+<html lang="en"><head></head><body>​
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>wine</title>
+        {% comment %} <div class="wrapper">
+                <div class="Search">
+                    <form>
+                        <input type="text" placeholder="Search" name="Search" id="Search" onkeyup="if(window.event.keyCode==13){Search()}">
+                    </form>
+                </div>       
+        </div> {% endcomment %}
+        <form>
+            <input type="text" style="display:none;"/>
+            <input type="text" name="Search" id="Search" onkeypress="enterkey()">
+            <button type="button" onclick="searchclick()">검색</button>
+        </form>
+{% for tw in tweet %}
+<div id="search"><a href="/main/read/{{ tw.write_no }}"> </div>
+<div id="search1"> </div>
+</body>
+</html>
+<script src="{% static 'js/search.js' %}"> </script>
