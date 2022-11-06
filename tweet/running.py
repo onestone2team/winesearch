@@ -3,7 +3,7 @@ import numpy as np
 import openpyxl
 import csv
 
-def savecosines():
+def savecosines(username):
     pd.set_option('display.max_columns', 10)
     pd.set_option('display.width', 300)
 
@@ -28,9 +28,9 @@ def savecosines():
     user_based_collab = cosine_similarity(title_user, title_user)
 
     user_based_collab = pd.DataFrame(user_based_collab, index=title_user.index, columns=title_user.index)
-
-    user_index_list = user_based_collab['add name'].sort_values(ascending=False)[:10].index.tolist()
-
+    
+    user_index_list = user_based_collab[username].sort_values(ascending=False)[:10].index.tolist()
+    print(user_index_list)
     return user_index_list[1]
 
 def Editexcel(new_data):

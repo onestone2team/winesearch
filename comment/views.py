@@ -1,4 +1,4 @@
-from rest_framework import status
+from rest_framework import status, permissions
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
@@ -13,7 +13,7 @@ class ReviewList(APIView):
          comments = Comment.objects.all()
          serializer = CommentSerializer(comments, many=True)
          return Response(serializer.data)
-     
+    permission_classes = [permissions.IsAuthenticated]
     def post(self, request, format=None):
         serializer = CommentSerializer(data = request.data)
         if serializer.is_valid():
@@ -27,13 +27,14 @@ class ReviewList(APIView):
 
 
 class Update(APIView):
-    def get(self, request, tweet_id, format=None):
-        comment = get_object_or_404(Comment, id=tweet_id)
+    
+    def get(self, request, tweet_id,comment_id, format=None):
+        comment = get_object_or_404(Comment, id=comment_id)
         serializer = CommentSerializer(comment)
         return Response(serializer.data)
-    
-    def put(self, request, tweet_id, fomat=None):
-        comment = get_object_or_404(Comment, id=tweet_id)
+    permission_classes = [permissions.IsAuthenticated]
+    def put(self, request, tweet_id,comment_id, fomat=None):
+        comment = get_object_or_404(Comment, id=comment_id)
         serializer = CommentSerializer(comment, data= request.data)
         if serializer.is_valid():
            serializer.save()
@@ -41,9 +42,9 @@ class Update(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
-    def delete(self, request, tweet_id, format=None):
-         comment = get_object_or_404(Comment, id=tweet_id)
+    def delete(self, request, tweet_id, comment_id, format=None):
+         comment = get_object_or_404(Comment, id=comment_id)
          comment.delete()
-         return Response(status=status.HTTP_200_OK) 
+         return Response({"message": "댓글이 삭제 되었습니다."},status=status.HTTP_200_OK) 
 
 
