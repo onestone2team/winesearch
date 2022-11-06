@@ -1,11 +1,11 @@
 from tweet.models import Tweet
 from user.models import User
+from comment.models import Comment
 from . import datasave
-
-
 
 from tweet.serializer import ViewSerializer
 from user.serializer import UserSerializer
+from tweet.running import savecosines
 
 from django.db.models import Q
 from django.shortcuts import render,redirect
@@ -114,6 +114,8 @@ class SaveList(APIView):
             for i in range(len(json_data)):
                 name = json_data[i]["title"]
                 content = json_data[i]["description"]
+                username = json_data[i]["taster_name"]
+                grade = json_data[i]["points"]
                 # 와인 구분 시스템
                 tag = json_data[i]["variety"]
                 data = tag.split(" ")
@@ -132,9 +134,19 @@ class SaveList(APIView):
                 div_img = soup.select_one('.bRMDJf')
                 img = div_img.select_one('img')['src']
                 
-                tweet = Tweet.objects.create(name = name, content=content, tag=winetag, country=country, image=img)
+                tweet = Tweet.objects.create(name = name, content=content, tag=winetag, country=country, image=img, taster_name = username, grade = grade)
                 tweet.save()
+
                 time.sleep(0.5)
 
         return Response("저장됨")
 
+class ShowRecommendation(APIView):
+    def get(self, request):
+
+        recommend_users = savecosines()
+        userdata = Tweet.objects.filter(taster_name = recommend_users).order_by('-grade')
+        userdata = userdata[:10]
+        serializer = ViewSerializer(userdata, many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
