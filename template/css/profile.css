@@ -48,6 +48,16 @@
     width : 200px;
     padding: 30px 20px 20px 20px ;
 }
+.side-bar a{
+    text-decoration: none;
+    color:#000000;
+    font-weight: bold; 
+}
+.side-bar a:hover{
+    text-decoration: none;
+    color:#e8cfcf;
+    font-weight: bold; 
+}
 .avatar {
     vertical-align: middle;
     width: 100px;

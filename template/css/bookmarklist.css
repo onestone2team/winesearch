@@ -47,10 +47,16 @@
     margin-top:20px;
 }
 .side-bar{
-    
     margin-top:20px;
-    color : whitesmoke;
     height : 800px;
-    /* width : 300px; */
-    
+}
+.side-bar a{
+    text-decoration: none;
+    color:#000000;
+    font-weight: bold; 
+}
+.side-bar a:hover{
+    text-decoration: none;
+    color:#e8cfcf;
+    font-weight: bold; 
 }

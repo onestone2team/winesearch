@@ -33,13 +33,13 @@
     color: white;                              
     display: block;                            
     width: 100%;                             
-    font-size: 12px;                           
+    font-size: 15px;                           
     font-weight: bold;                        
     font-family: "Trebuchet MS", Dotum, Arial;
 }
 #topMenu .menuLink:hover {           
-    color: red;                 
-    background-color: #4d4d4d;    
+    color: #6b0909;                 
+    background-color: #000000;    
 }
 .card-group{
     width:100%; 
@@ -95,6 +95,7 @@ button {
   color: rgb(236, 227, 227);
   margin-left: 15px;
   border-radius: 5px;
+  font-weight: bold;
 }
 ion-icon {
   padding-top: 4.5px;
