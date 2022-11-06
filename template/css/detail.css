@@ -67,9 +67,47 @@
     float: left;
     margin-right: 20px;
 }
+/* button */
+body {
+  background-color: #EEF0FD;
+}
+
+.button-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  float:right;
+}
+
+button {
+  border: 0.1px solid transparent;
+  border-radius: 8px;
+  box-shadow: 7px 8px 12px 0px rgba(0,0,0,0.19);
+  cursor: pointer;
+  display: flex;
+  font-size: 20px;
+  padding: 15px 20px;
+}
+
+.button__dark {
+  background-color: #6b0909;
+  color: rgb(236, 227, 227);
+  margin-left: 15px;
+  border-radius: 5px;
+}
+ion-icon {
+  padding-top: 4.5px;
+  padding-right: 10px;
+  transition: 0.3s;
+}
+
+.js-icon.active {
+  color: #151515;
+  transition: 0.3s;
+}
 
 /* comment */
-
 * {
     box-sizing: border-box;
     margin: 0;

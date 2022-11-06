@@ -45,22 +45,17 @@
     background-color: #6b0909;
     color : white;
     height : 800px;
-    width : 200px;
-    padding: 30px 20px 20px 20px ;
+    width : 300px;
+    padding: 30px 20px 20px 20px;
 }
-.avatar {
-    vertical-align: middle;
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-  }
-.input-boxes{
-    display: flex;
-    flex-direction:
-    column;
-    text-align: center; 
+.comment-box{
+    display:flex;
+    flex-direction:row;
+    padding-top:15px;
 }
-
-.input-box{
-    margin-bottom:5px;
+.comment{
+    width: 75%;
+}
+.progress{
+    width:25%
 }
