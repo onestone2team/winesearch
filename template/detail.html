@@ -34,91 +34,88 @@
                     <p>tag : red wine</p>
                     <p>description : Tart and snappy, the flavors of lime flesh and rind dominate. Some green pineapple pokes through, with crisp acidity underscoring the flavors. The wine was all stainless-steel fermented.</p>
                     <p>contry : US</p>
-                    <ul>
-                        
-                        
-                    </ul>
-                    
                 </section>
             </div>
         </div>
     </div>
+    <hr>
+
     <div class="comments-app" ng-app="commentsApp" ng-controller="CommentsController as cmntCtrl">
-        <h1>Comments list</h1>
+      <h1>Comments list</h1>
+      
+      <!-- From -->
+      <div class="comment-form">
+        <!-- Comment Avatar -->
+        <div class="comment-avatar">
+          <img src="http://lorempixel.com/200/200/people">
+        </div>
+    
+        <form class="form" name="form" ng-submit="form.$valid && cmntCtrl.addComment()" novalidate>
+          <div class="form-row">
+            <textarea
+                      class="input"
+                      ng-model="cmntCtrl.comment.text"
+                      placeholder="Add comment..."
+                      required></textarea>
+          </div>
+    
+          <div class="form-row">
+            <input
+                   class="input"
+                   ng-class="{ disabled: cmntCtrl.comment.anonymous }"
+                   ng-disabled="cmntCtrl.comment.anonymous"
+                   ng-model="cmntCtrl.comment.author"
+                   ng-required="!cmntCtrl.comment.anonymous"
+                   placeholder="point"
+                   type="number">
+          </div>
+
+          <div class="form-row">
+            <input type="submit" value="Add Comment">
+          </div>
+        </form>
+      </div>
+    
+      <!-- Comments List -->
+      <div class="comments">
+        <!-- Comment -->
         
-        <!-- From -->
-        <div class="comment-form">
+    
+        <!-- Comment - Dummy -->
+        <div class="comment">
           <!-- Comment Avatar -->
           <div class="comment-avatar">
-            <img src="http://lorempixel.com/200/200/people">
+            <img src="http://gravatar.com/avatar/412c0b0ec99008245d902e6ed0b264ee?s=80">
           </div>
-      
-          <form class="form" name="form" ng-submit="form.$valid && cmntCtrl.addComment()" novalidate>
-            <div class="form-row">
-              <textarea
-                        class="input"
-                        ng-model="cmntCtrl.comment.text"
-                        placeholder="Add comment..."
-                        required></textarea>
-            </div>
-      
-            <div class="form-row">
-              <input
-                     class="input"
-                     ng-class="{ disabled: cmntCtrl.comment.anonymous }"
-                     ng-disabled="cmntCtrl.comment.anonymous"
-                     ng-model="cmntCtrl.comment.author"
-                     ng-required="!cmntCtrl.comment.anonymous"
-                     placeholder="point"
-                     type="number">
-            </div>
-
-            <div class="form-row">
-              <input type="submit" value="Add Comment">
-            </div>
-          </form>
-        </div>
-      
-        <!-- Comments List -->
-        <div class="comments">
-          <!-- Comment -->
-          
-      
-          <!-- Comment - Dummy -->
-          <div class="comment">
-            <!-- Comment Avatar -->
-            <div class="comment-avatar">
-              <img src="http://gravatar.com/avatar/412c0b0ec99008245d902e6ed0b264ee?s=80">
-            </div>
-      
-            <!-- Comment Box -->
-            <div class="comment-box">
-              <div class="comment-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto temporibus iste nostrum dolorem natus recusandae incidunt voluptatum.</div>
-              <div class="comment-footer">
-                <div class="comment-info">
-                  <span class="comment-author">
-                    <a href="mailto:sexar@pagelab.io">Sexar</a>
-                  </span>
-                  <span class="comment-date">Feb 2, 2013 11:32:04 PM</span>
-                </div>
-      
-                <div class="comment-actions">
-                  <a href="#">Reply</a>
-                </div>
+    
+          <!-- Comment Box -->
+          <div class="comment-box">
+            <div class="comment-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto temporibus iste nostrum dolorem natus recusandae incidunt voluptatum.</div>
+            <div class="comment-footer">
+              <div class="comment-info">
+                <span class="comment-author">
+                  <a href="mailto:sexar@pagelab.io">Sexar</a>
+                </span>
+                <span class="comment-date">Feb 2, 2013 11:32:04 PM</span>
+              </div>
+    
+              <div class="comment-actions">
+                <a href="#">Reply</a>
               </div>
             </div>
           </div>
-      
-         
+        </div>
+    
+       
+        
           
-            
-          </div>
         </div>
       </div>
+    </div>
 
-        
-   
-            
+      
+ 
+          
 
 </body>
 </html>
