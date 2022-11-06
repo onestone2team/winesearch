@@ -33,7 +33,8 @@ class tweetAPI(APIView):
     def get(self, request,fromat=None):
         UserModels=User.objects.all()
         UserModels=UserSerializer(UserModels,many=True)
-        return render(request,"search.html")
+        return Response("연결")
+        # return render(request,"search.html")
         # return Response(UserModels.data)
     def post(self,request,format=None):
         Serializers =UserSerializer(data=request.data)
