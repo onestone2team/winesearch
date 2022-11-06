@@ -16,8 +16,8 @@ class MyUserManager(BaseUserManager):
             raise ValueError('Users must have an user')
 
         user = self.model(
-            username=self.username,
-            email=self.email,
+            username=username,
+            email=email,
         )
 
         user.set_password(password)
@@ -55,8 +55,8 @@ class User(AbstractBaseUser):
     REQUIRED_FIELDS = [
         'password',
         'email',
-        'profilename',
-        'profile'
+        # 'profilename',
+        # 'profile'
         ]
 
     def __str__(self):
