@@ -25,7 +25,7 @@ def imageValidator(profile):
         return True
 
 class UserSerializer(serializers.ModelSerializer):
-    password2 = serializers.CharField(max_length=50)
+    password2 = serializers.CharField(max_length=50, write_only=True)
     # print(password2)
     class Meta:
         model= User

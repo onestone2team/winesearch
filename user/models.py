@@ -44,7 +44,7 @@ class User(AbstractBaseUser):
     email = models.EmailField(
         verbose_name='email address',
     )
-    profile = models.ImageField(upload_to='%y/%m/', blank=True, default='basic_profile/guest.png')
+    profile = models.ImageField(upload_to='%y/%m/', blank=True,null=True ,default='basic_profile/guest.png')
     profilename = models.CharField(max_length=100)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
