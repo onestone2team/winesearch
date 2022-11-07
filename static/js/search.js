@@ -29,7 +29,7 @@ window.onload = async function test(){
                             class="card-img-top" alt="..." id="image" > </a>
                         <div class="card-body" id="winebody">
                             <h5 class="card-title" id="name">${data[i]['name']}</h5>
-                            <p class="card-text" id="content">${data[i]['id']}</p>
+
                         </div>
                     </div>
                 </div>
@@ -67,7 +67,7 @@ async function searchpageMove(){
                             class="card-img-top" alt="..." id="image" > </a>
                         <div class="card-body" id="winebody">
                             <h5 class="card-title" id="name">${data[i]['name']}</h5>
-                            <p class="card-text" id="content">${data[i]['id']}</p>
+                            
                         </div>
                     </div>
                 </div>

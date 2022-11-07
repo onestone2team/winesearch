@@ -97,7 +97,7 @@ window.onload = async function testbutton(){
                               <div class="comment">
                                 <!-- Comment Avatar -->
                                 <div class="comment-avatar">
-                                  <img src=${element.username.profile}>
+                                  <img src=${element.username.profile} style="height:100%">
                                 </div>
 
                                 <!-- Comment Box -->
@@ -112,7 +112,7 @@ window.onload = async function testbutton(){
                                         <span>${element.grade}</span>
                                       </div>
                                       <div class="comment-actions" id="edit-button">
-                                        <a onclick="commentUpdate(${element.id})">Reply</a>
+                                        <a onclick="commentUpdate(${element.id})">Edit</a>
                                         <span>/</span>
                                         <a onclick="commentDelete(${page_data.id},${element.id})">delete</a>
                                       </div>
