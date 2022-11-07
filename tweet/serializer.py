@@ -4,6 +4,7 @@ from comment.models import Comment
 from comment.seriallzers import TweetCommentSerializer
 
 class ViewSerializer(serializers.ModelSerializer):
+    
     class Meta :
         model = Tweet
         fields = ("id","name", "image")
@@ -19,7 +20,7 @@ class ViewTweetDetail(serializers.ModelSerializer):
 
     class Meta :
         model = Tweet
-        fields = ("id","name","tag","image","content", "country", "comment_set")
+        fields = ("id","name","tag","image","content", "country", "comment_set","bookmark")
 
 class CommentCreateSerializer(serializers.ModelSerializer):
     class Meta :

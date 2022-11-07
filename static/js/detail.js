@@ -36,6 +36,8 @@ window.onload = async function testbutton(){
 
     var payload = localStorage.getItem("payload")
     var parsed_payload = await JSON.parse(payload)
+    
+  
 
     const response_user = await fetch(`${backend_base_url}/user/profile/`, {
       headers:{
@@ -57,8 +59,7 @@ window.onload = async function testbutton(){
     response_json=await response.json()
     page_data = response_json
     comment_data = page_data.comment_set
-    console.log(page_data)
-    console.log(comment_data)
+    
 
     const search =document.getElementById("content")
     const winedata = document.createElement("div")
@@ -75,7 +76,7 @@ window.onload = async function testbutton(){
                                     <p>contry : ${page_data.country}</p>
                                 </section>
                                 <div class = "button-container" id="bookmark-button" style="display:none;">
-                                  <button type = "button" class="button__dark js-button" onclick="bookmark(${page_data.id})">
+                                  <button type = "button" class="button__dark js-button" id= "button_dark" onclick="bookmark(${page_data.id})">
                                     <ion-icon name="bookmark" class="icon__dark js-icon" onclick=""></ion-icon>
                                     Bookmark
                                   </button>
@@ -145,6 +146,21 @@ window.onload = async function testbutton(){
       
     }
 
+
+    // 북마크 UI 기능
+    user_id = parsed_payload.user_id
+    bookmarklist = page_data.bookmark
+
+    test = bookmarklist.indexOf(user_id)
+    
+    if(test == -1){
+      const bookmark_button = document.getElementById("button_dark")
+      bookmark_button.setAttribute("style", "color:gray; background-color:white;")
+    }
+    else{
+      const bookmark_button = document.getElementById("button_dark")
+      bookmark_button.setAttribute("style", "color:#6b0909; background-color:gray;")
+    }
 
 }
 

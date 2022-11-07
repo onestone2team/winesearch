@@ -12,7 +12,7 @@ async function loginissue() {
     const password = document.getElementById("password").value
     console.log(username, password)
 
-    const response = await fetch('http://127.0.0.1:8000/user/api/token/', {
+    const response = await fetch(`${backend_base_url}/user/api/token/`, {
         headers:{
         "content-type": "application/json",
         },

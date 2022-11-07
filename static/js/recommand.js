@@ -22,11 +22,11 @@ async function getBookmarkList() {
     const bookmark = document.createElement('div')
             bookmark.innerHTML = `<div class="col"style="height:400px">
                                     <div class="card h-100" >
-                                        <a href="http://127.0.0.1:5500/templates/detail.html?id=${element.tweet.id}">
-                                          <img src=${element.tweet.image} class="card-img-top" alt="..." style="height:250px">
+                                        <a href="http://127.0.0.1:5500/templates/detail.html?id=${element.id}">
+                                          <img src=${element.image} class="card-img-top" alt="..." style="height:250px">
                                         </a>
                                         <div class="card-body">
-                                            <h5 class="card-title">${element.tweet.name}</h5>
+                                            <h5 class="card-title">${element.name}</h5>
                                         </div>
                                     </div>
                                   </div>` 
