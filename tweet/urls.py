@@ -7,15 +7,6 @@ from rest_framework.urlpatterns import format_suffix_patterns
 
 
 urlpatterns = [
-<<<<<<< HEAD
-    path('', views.tweetAPI.as_view(), name="index"),
-    path('views/', views.PostViewSet.as_view(), name='View_view'),
-    path('views/<str:wine_type>/', views.ViewWineType.as_view(), name='View_view'),
-    path('tweetlist/', views.tweetlist.as_view(), name="tweetlist"),
-    path('search/', views.search.as_view(), name="search"),
-    path('main/', views.SaveList.as_view(), name="main"),
-    path('<int:id>', views.read_tweet, name='read_tweet'), # 게시글 상세페이지 접속
-=======
     path('', views.PostViewSet().as_view(), name="index"),
     path('tag/<str:wine_type>/', views.ViewWineType.as_view(), name='tag_view'),
     path('recommend/', views.ViewRecommendWine.as_view(), name='recommend_view'),
@@ -29,7 +20,7 @@ urlpatterns = [
     path('detail/<int:wine_id>/bookmark/', views.BookmarkView.as_view(), name='bookmark_view'),
     #없애야 할 url
     path('main/', views.SaveList.as_view(), name="createtweet"),
->>>>>>> main
+
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns=format_suffix_patterns(urlpatterns)
