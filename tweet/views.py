@@ -3,21 +3,13 @@ from user.models import User
 from comment.seriallzers import CommentSerializer, TweetCommentSerializer
 from comment.models import Comment
 from . import datasave
-<<<<<<< HEAD
-from tweet.serializer import ViewSerializer
-from user.serializer import UserSerializer
-from django.db.models import Q
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-=======
-
 from tweet.serializer import ViewSerializer, ViewSearchSerializer, ViewTweetDetail, UserCommentSerializer, RecommandCommentSerializer
 from user.serializer import UserSerializer
 from tweet.running import savecosines, Editexcel
-
 from django.db.models import Q
 from rest_framework.generics import get_object_or_404
->>>>>>> main
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -38,15 +30,6 @@ import time
         
 class ViewSearch(APIView):
     def get(self,request):
-<<<<<<< HEAD
-        queryset = Tweet.objects.all()
-        searchword = request.GET.get('search')
-        print(searchword)
-        if searchword:
-            queryset=queryset.filter(Q(name__icontains=searchword)|Q(tag__icontains=searchword)|Q(content__icontains=searchword))
-        serializers=ViewSerializer(queryset,many=True)
-        return Response(serializers.data,status=status.HTTP_200_OK)
-=======
         pagination = PageNumberPagination()
         pagination.page_size = 20
         pagination.page_query_param = 'page'
@@ -58,7 +41,6 @@ class ViewSearch(APIView):
         serializer = ViewSearchSerializer(p, many=True)
         return Response(serializer.data)
         
->>>>>>> main
 # 추가 수정 내용
 class PostViewSet(APIView):
     
