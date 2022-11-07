@@ -72,7 +72,7 @@ class ViewWineType(APIView):
 class ViewRecommendWine(APIView):
     def get(self, request):
         username = request.user.username
-        comment_data = Comment.objects.filter(username_id = request.user.id)
+        comment_data = Comment.objects.filter(id = request.user.id)
         if comment_data:
             taster_name = savecosines(username)
             print(taster_name)
@@ -80,7 +80,7 @@ class ViewRecommendWine(APIView):
 
             if not wine_recommand :
                 userdata = User.objects.get(username = taster_name)
-                wine_recommand = Comment.objects.filter(username_id = userdata.id).order_by('-grade')
+                wine_recommand = Comment.objects.filter(id = userdata.id).order_by('-grade')
                 wine_recommand = wine_recommand[:10]
                 serializer = RecommandCommentSerializer(wine_recommand, many=True)
             
@@ -133,7 +133,7 @@ class UserCommentView(APIView):
         pagination = PageNumberPagination()
         pagination.page_size = 10
         pagination.page_query_param = 'page'
-        comment = Comment.objects.filter(username_id = request.user.id)
+        comment = Comment.objects.filter(id = request.user.id)
         if comment:
             p = pagination.paginate_queryset(queryset=comment, request=request)
 
@@ -204,14 +204,4 @@ class SaveList(APIView):
 
         return Response("저장됨")
 
-
-def read_tweet(request, id):
-    if request.method == 'GET':
-        winedata = Tweet.objects.get(id=id)
-        print(id)
-        print(winedata)
-        # content = winedata.content_set_all()           
-        return render(request, 'read.html',{'tweet': winedata})
-        print(winedata)
-        # return render(request, 'tweet/read.html', {'tweet': click_tweet})
 

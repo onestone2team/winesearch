@@ -6,22 +6,24 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>title</title>
-  <link rel="stylesheet" type="text/css" href="css/title.css">
-  <script src="css/title.js"></script>
+  <link rel="stylesheet" type="text/css" href="title.css">
 </head>
 
 <body>
   <header id="header">
-    <a class="site-logo" href="#">
+    <a class="site-logo" href="main.html" target = "_top">
       WineSearch
     </a>
     <div class="search-box">
       <div style="margin-top:18px; width:300px;">
-        <input type="text" id="search-bar" placeholder="What can I help you with today?">
+        <form>
+          <input type="text" style="display:none;"/>
+          <input type="text" target = "_top" name="Search" id="Search" onkeypress="enterkey()" placeholder="What can I help you with today?">
+        </form>
       </div>
       <div>
         <a href="#"><img class="search-icon"
-          src="http://www.endlessicons.com/wp-content/uploads/2012/12/search-icon.png"></a>
+          src="http://www.endlessicons.com/wp-content/uploads/2012/12/search-icon.png" onclick="searchclick()" target = "_top"></a>
       </div>
     </div>
     <nav role="navigation" id="nav-main" class="okayNav">
@@ -32,6 +34,8 @@
     </nav>
   </header>
   <!-- /header -->
+  <script src="title.js"></script>
+  <script src='search.js'> </script>
 
 </body>
 
