@@ -19,6 +19,11 @@
 </head>
 <body>
     <iframe src="title.html" class="header-view"></iframe>
+    <form>
+        <input type="text" style="display:none;"/>
+        <input type="text" name="Search" id="Search" onkeypress="enterkey()">
+        <button type="button" onclick="searchclick()">검색</button>
+    </form>
 
     <nav id="topMenu" >
         <ul>
@@ -29,73 +34,9 @@
         </ul>
     </nav>
     <div class="col-md-12">
-        <div>
-            <div class="row row-cols-1 row-cols-md-5 g-3">
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="https://www.ikea.com/kr/en/images/products/storsint-red-wine-glass-clear-glass__0640894_pe700139_s5.jpg"
-                            class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a longer card with supporting text below as a natural
-                                lead-in to additional content. This content is a little bit longer.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100">
-                        <a href="http://127.0.0.1:5500/templates/detail.html?id=8"><img src="https://www.ikea.com/kr/en/images/products/storsint-red-wine-glass-clear-glass__0640894_pe700139_s5.jpg"
-                            class="card-img-top" alt="..."></a>
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a short card.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="https://www.ikea.com/kr/en/images/products/storsint-red-wine-glass-clear-glass__0640894_pe700139_s5.jpg"
-                            class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a longer card with supporting text below as a natural
-                                lead-in to additional content.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="https://www.ikea.com/kr/en/images/products/storsint-red-wine-glass-clear-glass__0640894_pe700139_s5.jpg"
-                            class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a longer card with supporting text below as a natural
-                                lead-in to additional content. This content is a little bit longer.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="https://www.ikea.com/kr/en/images/products/storsint-red-wine-glass-clear-glass__0640894_pe700139_s5.jpg"
-                            class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a longer card with supporting text below as a natural
-                                lead-in to additional content. This content is a little bit longer.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="https://www.ikea.com/kr/en/images/products/storsint-red-wine-glass-clear-glass__0640894_pe700139_s5.jpg"
-                            class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a longer card with supporting text below as a natural
-                                lead-in to additional content. This content is a little bit longer.</p>
-                        </div>
-                    </div>
-                </div>
+        <div >
+            <div class="row row-cols-1 row-cols-md-5 g-3" id="wine">
+                
             </div>
         </div>
     </div>
@@ -104,12 +45,12 @@
         <nav aria-label="Page navigation example" style="display: inline-block;">
             <ul class="pagination">
                 <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Previous">
+                    <a class="page-link" href="#" aria-label="Previous" onclick="pagePreview1()">
                     <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
+                    <a class="page-link" href="#" aria-label="Next" onclick="pageNext1()">
                     <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>
@@ -120,3 +61,5 @@
 
 </body>
 </html>
+<script src='../static/js/search.js'> </script>
+<script src='../static/js/main.js'> </script>
