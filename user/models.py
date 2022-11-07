@@ -29,10 +29,11 @@ class MyUserManager(BaseUserManager):
         Creates and saves a superuser with the given email, date of
         birth and password.
         """
-        user = self.model(
-username=username,
-email=email,
-)
+        user = self.create_user(
+            username=username,
+            email = email,
+            password=password,
+        )
         user.is_admin = True
         user.save(using=self._db)
         return user
@@ -43,7 +44,7 @@ class User(AbstractBaseUser):
     email = models.EmailField(
         verbose_name='email address',
     )
-    profile = models.ImageField(upload_to='%y/%m/', blank=True)
+    profile = models.ImageField(upload_to='%y/%m/', blank=True, default='basic_profile/guest.png')
     profilename = models.CharField(max_length=100)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
