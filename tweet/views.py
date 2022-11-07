@@ -128,11 +128,13 @@ class SaveList(APIView):
         return Response("저장됨")
 
 
-def read_tweet(request, no):
+def read_tweet(request, id):
     if request.method == 'GET':
-        click_tweet = Tweet.objects.get(write_no=no)
-        comments = click_tweet.comment_set.all()
-            
-        return render(request, 'tweet/read.html', {'tweet': click_tweet, 'comments': comments})
+        winedata = Tweet.objects.get(id=id)
+        print(id)
+        print(winedata)
+        # content = winedata.content_set_all()           
+        return render(request, 'read.html',{'tweet': winedata})
+        print(winedata)
         # return render(request, 'tweet/read.html', {'tweet': click_tweet})
 # 긁읽어온느 back 미완성
