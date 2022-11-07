@@ -31,7 +31,7 @@ class UserCommentSerializer(serializers.ModelSerializer):
     tweet = serializers.SerializerMethodField()
 
     def get_tweet(self, obj):
-        return obj.tweet.name
+        return obj.tweet.id
 
     class Meta :
         model = Comment

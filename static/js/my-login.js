@@ -38,12 +38,12 @@ async function loginissue() {
     localStorage.setItem("payload", jsonPayload);
 
     if (response.status == 200){
-		alert(response.status)
+		alert("로그인 완료")
 		console.log(response)
         window.location.replace(`${frontend_base_url}/main.html`);
     }
 	else{
-		alert(response.status)
+		alert("아이디와 비밀번호를 확인해주세요")
 	}
 
 
