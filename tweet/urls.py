@@ -18,8 +18,12 @@ urlpatterns = [
     path('detail/<int:wine_id>/bookmark/', views.BookmarkView.as_view(), name='bookmark_view'),
     #체크 할 url
     path('main/', views.SaveList.as_view(), name="createtweet"),
+<<<<<<< HEAD
     path('views/', views.PostViewSet.as_view(), name='View_view'),
     path('views/<str:wine_type>/', views.ViewWineType.as_view(), name='View_view'),
+=======
+
+>>>>>>> origin/main
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns=format_suffix_patterns(urlpatterns)

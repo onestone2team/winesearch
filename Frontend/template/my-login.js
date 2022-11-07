@@ -1,88 +1,85 @@
-/******************************************
- * My Login
- *
- * Bootstrap 4 Login Page
- *
- * @author          Muhamad Nauval Azhar
- * @uri 			https://nauval.in
- * @copyright       Copyright (c) 2018 Muhamad Nauval Azhar
- * @license         My Login is licensed under the MIT license.
- * @github          https://github.com/nauvalazhar/my-login
- * @version         1.2.0
- *
- * Help me to keep this project alive
- * https://www.buymeacoffee.com/mhdnauvalazhar
- * 
- ******************************************/
 
-'use strict';
 
-$(function() {
+window.onload = () => {
+    console.log("로딩 굿")
+}
 
-	// author badge :)
-	var author = '<div style="position: fixed;bottom: 0;right: 20px;background-color: #fff;box-shadow: 0 4px 8px rgba(0,0,0,.05);border-radius: 3px 3px 0 0;font-size: 12px;padding: 5px 10px;">By <a href="https://twitter.com/mhdnauvalazhar">@mhdnauvalazhar</a> &nbsp;&bull;&nbsp; <a href="https://www.buymeacoffee.com/mhdnauvalazhar">Buy me a Coffee</a></div>';
-	$("body").append(author);
+const frontend_base_url = "http://127.0.0.1:5500/templates"
+const backend_base_url = "http://127.0.0.1:8000"
 
-	$("input[type='password'][data-eye]").each(function(i) {
-		var $this = $(this),
-			id = 'eye-password-' + i,
-			el = $('#' + id);
+async function loginissue() {
+    const username = document.getElementById("username").value
+    const password = document.getElementById("password").value
+    console.log(username, password)
 
-		$this.wrap($("<div/>", {
-			style: 'position:relative',
-			id: id
-		}));
+    const response = await fetch('http://127.0.0.1:8000/user/api/token/', {
+        headers:{
+        "content-type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify({
+            "username": username,
+            "password": password
+        })
+    })
+    console.log(response)
 
-		$this.css({
-			paddingRight: 60
-		});
-		$this.after($("<div/>", {
-			html: 'Show',
-			class: 'btn btn-primary btn-sm',
-			id: 'passeye-toggle-'+i,
-		}).css({
-				position: 'absolute',
-				right: 10,
-				top: ($this.outerHeight() / 2) - 12,
-				padding: '2px 7px',
-				fontSize: 12,
-				cursor: 'pointer',
-		}));
+    const response_json = await response.json() //** 우리가 읽을 수 있고. 원하는 형태인 json형태로 바꾸어 줌! */
+    console.log(response_json.access)
+    localStorage.setItem("access", response_json.access);
+    localStorage.setItem("refresh", response_json.refresh);
 
-		$this.after($("<input/>", {
-			type: 'hidden',
-			id: 'passeye-' + i
-		}));
+    const base64Url = response_json.access.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c){
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
 
-		var invalid_feedback = $this.parent().parent().find('.invalid-feedback');
+    localStorage.setItem("payload", jsonPayload);
 
-		if(invalid_feedback.length) {
-			$this.after(invalid_feedback.clone());
-		}
+    if (response.status == 200){
+		alert(response.status)
+		console.log(response)
+        window.location.replace(`${frontend_base_url}/main.html`);
+    }
+	else{
+		alert(response.status)
+	}
 
-		$this.on("keyup paste", function() {
-			$("#passeye-"+i).val($(this).val());
-		});
-		$("#passeye-toggle-"+i).on("click", function() {
-			if($this.hasClass("show")) {
-				$this.attr('type', 'password');
-				$this.removeClass("show");
-				$(this).removeClass("btn-outline-primary");
-			}else{
-				$this.attr('type', 'text');
-				$this.val($("#passeye-"+i).val());				
-				$this.addClass("show");
-				$(this).addClass("btn-outline-primary");
-			}
-		});
-	});
 
-	$(".my-login-validation").submit(function() {
-		var form = $(this);
-        if (form[0].checkValidity() === false) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-		form.addClass('was-validated');
-	});
-});
+}
+
+async function signupissue() {
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+    const password2 = document.getElementById("password2").value;
+    const email = document.getElementById("email").value;
+    const profilename = document.getElementById("profilename").value;
+    console.log(username, password, profilename, email);
+	
+    const response = await fetch(`${backend_base_url}/user/signup/`, {
+        headers:{
+        "content-type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify({
+            "username": username,
+            "password": password,
+            "password2": password2,
+            "email": email,
+            "profilename": profilename
+
+        })
+    })
+
+    if (response.status == 201){
+		alert(response.status)
+        window.location.replace(`${frontend_base_url}/signin.html`);
+    }
+	else{
+		alert(response.status)
+	}
+    
+}
+
+
