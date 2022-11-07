@@ -137,4 +137,4 @@ def read_tweet(request, id):
         return render(request, 'read.html',{'tweet': winedata})
         print(winedata)
         # return render(request, 'tweet/read.html', {'tweet': click_tweet})
-# 긁읽어온느 back 미완성
+
