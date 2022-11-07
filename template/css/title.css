@@ -35,7 +35,7 @@ main {
 
 /* Header styles */
 header {
-    margin-bottom: 10px;
+    
     -webkit-align-items: center;
     -ms-flex-align: center;
     align-items: center;
@@ -65,13 +65,21 @@ header {
 .search-box{
     border:solid black;
     border-width:1px;
-    height:70px; display:flex;
+    height:60px; 
+    display:flex;
+}
+
+.search-box input{
+    margin-left:30px; 
+    font-size:15px; 
+    width:250px; 
+    border: 0px;
 }
   
 .search-icon{
     position: relative;
     float: right;
-    width: 75px;
-    height: 75px;
-    
+    width: 60px;
+    height: 60px;
+    margin-bottom: 50px;
 }

@@ -38,8 +38,8 @@
     font-family: "Trebuchet MS", Dotum, Arial;
 }
 #topMenu .menuLink:hover {           
-    color: red;                 
-    background-color: #4d4d4d;    
+    color: #6b0909;                 
+    background-color: #000000;    
 }
 .card-group{
     width:100%; 
