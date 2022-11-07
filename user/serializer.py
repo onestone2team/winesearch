@@ -34,13 +34,11 @@ class UserSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         password_valid= passwordVaildator(attrs['password'], attrs["password2"])
         email_valid= emailvaildator(attrs['email'])
-        image_valid= imageValidator(attrs['profile'])
         if email_valid == False:
             raise serializers.ValidationError("이메일을 확인해 주세요!")
         if password_valid == False:
             raise serializers.ValidationError("비밀번호를 확인해 주세요!")
-        if image_valid== False:
-            attrs.update({'profile': 'basic_profile/guest.png'})
+        
         attrs.pop('password2', None)
         # del attrs['password2']
         return super().validate(attrs)
@@ -61,6 +59,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class UserProfileInfoSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(max_length=50)
+
     class Meta:
         model= User
         fields= ('username', 'email', 'profile', 'profilename', 'password', 'password2')
@@ -78,10 +77,20 @@ class UserProfileInfoSerializer(serializers.ModelSerializer):
         return super().validate(attrs)
 
     def update(self, instance, validated_data):
-        instance.username= validated_data.get('username', instance.username)
+        # instance.username= validated_data.get('username', instance.username)
         instance.profile= validated_data.get('profile', instance.profile)
         instance.profilename= validated_data.get('profilename', instance.profilename)
         instance.email= validated_data.get('email', instance.email)
         instance.set_password(validated_data.get('password', instance.password))
         instance.save()
         return instance
+
+class UserProfileView(serializers.ModelSerializer):
+    class Meta:
+        model= User
+        fields= ('username', 'email', 'profile', 'profilename')
+
+class CommentProfileView(serializers.ModelSerializer):
+    class Meta:
+        model= User
+        fields= ("id",'profile', 'profilename')
