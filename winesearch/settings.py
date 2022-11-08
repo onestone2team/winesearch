@@ -41,12 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-<<<<<<< HEAD
-=======
     'drf_yasg',
-    
-
->>>>>>> main
     'tweet',
     'user',
     'comment',
