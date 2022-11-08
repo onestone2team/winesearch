@@ -1,21 +1,32 @@
-  ## project WineSearch
-  ## A-2 일석이조
- 
+  # 🚩 project WineSearch 
+  ## 👩‍💻 A2 일석이조
+
    ![image](https://i.ibb.co/CsrNLm5/unnamed.jpg)
   <p>
       <img src="https://img.shields.io/badge/Django-4.1.1-green"/>
   </p>
 
+  ### 🍷 소개
+  - 유저의 취향에 맞는 와인을 추천해주는 사이트
+  - 노션 https://www.notion.so/S-A-1babf1e770e14575b9df9008e6c5e5c9
+  
+  ### 🍷 사용한 데이터셋 모델
+  - https://www.kaggle.com/datasets/zynicide/wine-reviews
+  
+  ### 🍷 주요 기능 
+  - ##### 찾고싶은 와인 검색
+  - ##### 먹어본 와인에 대한 평점 및 리뷰 작성
+  - ##### 작성한 평점 및 리뷰 모아보기
+  - ##### 취향에 맞는 와인 북마크하기
+  - ##### 북마크한 와인 모아보기
+  - ##### 선호하는 와인 데이터를 기반의 추천 시스템
+  
+  
   ***
 
-  ### 소개
-  - 와인 리뷰,찾기 등 가능한 사이트입니다.
 
-  ***
-
-
-
-  ### 개발 일정
+  ### 🍷 개발 일정
+  
   **진행기간** 2022년 11월 2일 ~ 2022년 11월 8일
 
   **11월 2~3일** S.A 내용 작성,와이어 데이터 베이스 불러오기 
@@ -29,7 +40,7 @@
   **11월 8일** 추천 시스템 구현
 
 
-  ### 프로젝트 참여한 명단 및 역할
+  ### 🍷 프로젝트 참여한 명단 및 역할
 
   안범기: 게시글 상세 페이지,검색기능
   
@@ -44,7 +55,7 @@
   ***
 
 
-  ### API 설계
+  ### 🍷 API 설계
   <details>
   <summary>접기/펼치기 버튼</summary>
   <div markdown="1">
@@ -70,10 +81,7 @@
   
 
 
-  ***
-
-
-  ### 와이어프레임
+  ### 🍷 와이어프레임
   <details>
   <summary>접기/펼치기 버튼</summary>
   <div markdown="1">
@@ -99,41 +107,11 @@
   </div>
   </details>
 
-  ### erd
+  ### 🍷 erd
 
   ![image](https://i.ibb.co/18YWrtj/ERD.jpg)
   
 
 
-
-
-
-  ***
-
-
-
-
-  ***
-
-
-
-  ### 주요 기능 
-
-  - ##### 해당 와인 평점 및 리뷰 남기기
-  - ##### 외인 검색 및 검색한 와인 이외에 추천 시스템
-
-
-  ### 사용한 데이터셋 모델
-  https://www.kaggle.com/datasets/zynicide/wine-reviews
-
-
-
-
-
   <br/>
-
-  SA) https://www.notion.so/S-A-1babf1e770e14575b9df9008e6c5e5c9
-
-
-
 
