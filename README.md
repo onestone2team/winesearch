@@ -123,7 +123,8 @@
   - ##### 외인 검색 및 검색한 와인 이외에 추천 시스템
 
 
-  사용한 데이터셋 모델 - 뭔가요??
+  ### 사용한 데이터셋 모델
+  https://www.kaggle.com/datasets/zynicide/wine-reviews
 
 
 
@@ -131,7 +132,7 @@
 
   <br/>
 
-  *** Notion주소 https://www.notion.so/S-A-1babf1e770e14575b9df9008e6c5e5c9
+  SA) https://www.notion.so/S-A-1babf1e770e14575b9df9008e6c5e5c9
 
 
 
