@@ -1,72 +1,57 @@
-const changeColor = function(element) {
+const changeColor = function (element) {
     element.querySelector('.js-icon').classList.toggle("active")
 }
 
 // window.onload = async function checkLogin(){
-  
+
 //     console.log("load")
 
 
 //     show_tag_fuc() // backend에서 tag 가져오기
 //     all_name = new Array(); // 전체 테그 담을 리스트 선언
 
-    
-
 
 // }
 
-const frontend_base_url = "http://127.0.0.1:5500/templates"
-const backend_base_url = "http://127.0.0.1:8000"
 
 const urlParameter = window.location.search;
 var wine_id = urlParameter.split('=')[1]
 
-window.onload = async function testbutton(){
+window.onload = async function testbutton() {
 
-    
 
     const response = await fetch(`${backend_base_url}/detail/${wine_id}/`, {
-          headers:{
-              'content-type':'application/json',
-          },
-          method:'GET',
+        headers: {
+            'content-type': 'application/json',
+        },
+        method: 'GET',
     })
-
-    
 
     var payload = localStorage.getItem("payload")
     var parsed_payload = await JSON.parse(payload)
-    
-  
-
     const response_user = await fetch(`${backend_base_url}/user/profile/`, {
-      headers:{
-          'content-type':'application/json',
-          "Authorization": "Bearer " + localStorage.getItem("access")
-      },
-      method:'GET',
+        headers: {
+            'content-type': 'application/json',
+            "Authorization": "Bearer " + localStorage.getItem("access")
+        },
+        method: 'GET',
     })
-    
-    response_user_json=await response_user.json()
-    console.log(response_user_json)
 
-    const userImage =document.getElementById("user-img")
+    response_user_json = await response_user.json()
+
+    const userImage = document.getElementById("user-img")
     userImage.setAttribute("src", response_user_json.profile)
 
 
     console.log(parsed_payload)
 
-    response_json=await response.json()
+    response_json = await response.json()
     page_data = response_json
     comment_data = page_data.comment_set
-    
-
-    const search =document.getElementById("content")
+    const search = document.getElementById("content")
     const winedata = document.createElement("div")
 
-    
-
-    winedata.innerHTML=`<div class="demo-area">
+    winedata.innerHTML = `<div class="demo-area">
                             <img class="demo-trigger" src=${page_data.image}>
                             <div class="detail">
                                 <section>
@@ -76,74 +61,70 @@ window.onload = async function testbutton(){
                                     <p>contry : ${page_data.country}</p>
                                 </section>
                                 <div class = "button-container" id="bookmark-button" style="display:none;">
-                                  <button type = "button" class="button__dark js-button" id= "button_dark" onclick="bookmark(${page_data.id})">
+                                    <button type = "button" class="button__dark js-button" id= "button_dark" onclick="bookmark(${page_data.id})">
                                     <ion-icon name="bookmark" class="icon__dark js-icon" onclick=""></ion-icon>
                                     Bookmark
-                                  </button>
+                                    </button>
                                 </div>
                             </div>
                         </div>`
     search.prepend(winedata)
 
-    const comment_put =document.getElementById("commment")
+    const comment_put = document.getElementById("commment")
     const comment_user = document.createElement("div")
 
 
     comment_data.forEach(element => {
-      const comment_user = document.createElement("div")
-      
-      comment_user.innerHTML=`
-                              <!-- Comment - Dummy -->
-                              <div class="comment">
-                                <!-- Comment Avatar -->
-                                <div class="comment-avatar">
-                                  <img src=${element.username.profile} style="height:100%">
-                                </div>
+        const comment_user = document.createElement("div")
 
-                                <!-- Comment Box -->
-                                <div class="comment-box" >
-                                  <div class="comment-text">${element.comment}</div>
-                                    <div class="comment-footer">
-                                      <div class="comment-info">
-                                        <span class="comment-author">
-                                          <a>${element.username.profilename}</a>
-                                        </span>
-                                        <span class="comment-date">${element.created_time}</span>
-                                        <span>${element.grade}</span>
-                                      </div>
-                                      <div class="comment-actions" id="edit-button">
-                                        <a onclick="commentUpdate(${element.id})">Edit</a>
-                                        <span>/</span>
-                                        <a onclick="commentDelete(${page_data.id},${element.id})">delete</a>
-                                      </div>
-
+        comment_user.innerHTML = `
+                                <!-- Comment - Dummy -->
+                                <div class="comment">
+                                    <!-- Comment Avatar -->
+                                    <div class="comment-avatar">
+                                        <img src=${element.username.profile} style="height:100%">
                                     </div>
-                                  </div>
-                                </div>
-                              `
+                                    <!-- Comment Box -->
+                                    <div class="comment-box" >
+                                        <div class="comment-text">${element.comment}</div>
+                                            <div class="comment-footer">
+                                                <div class="comment-info">
+                                                    <span class="comment-author">
+                                                    <a>${element.username.profilename}</a>
+                                                    </span>
+                                                    <span class="comment-date">${element.created_time}</span>
+                                                    <span>${element.grade}</span>
+                                                </div>
+                                            <div class="comment-actions" id="edit-button">
+                                            <a onclick="commentUpdate(${element.id})">Edit</a>
+                                            <a onclick="commentDelete(${page_data.id},${element.id})">delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`
         comment_put.prepend(comment_user)
         const editButton = document.getElementById("edit-button")
-        if(parsed_payload.user_id == element.username.id){
-          editButton.setAttribute("style", "display:flex;")
+        if (parsed_payload.user_id == element.username.id) {
+            editButton.setAttribute("style", "display:flex;")
         }
-        else{
-          editButton.setAttribute("style", "display:none;")
+        else {
+            editButton.setAttribute("style", "display:none;")
         }
-      });
+    });
 
     const commentbox = document.getElementById("comment-put")
     const bookmarkButton = document.getElementById("bookmark-button")
 
-    if(parsed_payload){
-      commentbox.setAttribute("style", "display:block;")
-      commentbox.setAttribute("style", "display:block;")
-      bookmarkButton.setAttribute("style", "display:flex;")
+    if (parsed_payload) {
+        commentbox.setAttribute("style", "display:block;")
+        commentbox.setAttribute("style", "display:block;")
+        bookmarkButton.setAttribute("style", "display:flex;")
 
     }
-    else{
-      commentbox.setAttribute("style", "display:none;")
-      bookmarkButton.setAttribute("style", "display:none;")
-      
+    else {
+        commentbox.setAttribute("style", "display:none;")
+        bookmarkButton.setAttribute("style", "display:none;")
+
     }
 
 
@@ -152,84 +133,84 @@ window.onload = async function testbutton(){
     bookmarklist = page_data.bookmark
 
     test = bookmarklist.indexOf(user_id)
-    
-    if(test == -1){
-      const bookmark_button = document.getElementById("button_dark")
-      bookmark_button.setAttribute("style", "color:gray; background-color:white;")
+
+    if (test == -1) {
+        const bookmark_button = document.getElementById("button_dark")
+        bookmark_button.setAttribute("style", "color:gray; background-color:white;")
     }
-    else{
-      const bookmark_button = document.getElementById("button_dark")
-      bookmark_button.setAttribute("style", "color:#6b0909; background-color:gray;")
+    else {
+        const bookmark_button = document.getElementById("button_dark")
+        bookmark_button.setAttribute("style", "color:#6b0909; background-color:gray;")
     }
 
 }
 
-async function addcommend(){
+async function addcommend() {
     const comment = document.getElementById("comment_input").value;
     const grade = document.getElementById("grade_input").value;
     console.log(comment, grade);
 
     const response = await fetch(`${backend_base_url}/detail/${wine_id}/`, {
-      headers:{
-      "content-type": "application/json",
-      "Authorization": "Bearer " + localStorage.getItem("access")
-      },
-      method: "POST",
-      body: JSON.stringify({
-          "comment": comment,
-          "grade": grade
-      })
-  })
+        headers: {
+            "content-type": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("access")
+        },
+        method: "POST",
+        body: JSON.stringify({
+            "comment": comment,
+            "grade": grade
+        })
+    })
 
-  if (response.status == 201){
-		alert(response.data)
+    if (response.status == 201) {
+        alert(response.data)
     }
-	else{
-		alert(response.status)
-	}
+    else {
+        alert(response.status)
+    }
 
 
 
 }
 
-async function bookmark(wine_id){
+async function bookmark(wine_id) {
 
-  const response = await fetch(`${backend_base_url}/detail/${wine_id}/bookmark/`, {
-    headers:{
-    "content-type": "application/json",
-    "Authorization": "Bearer " + localStorage.getItem("access")
-    },
-    method: "POST",
-    
-  })
-  if (response.status == 200){
-    alert(response.data)
+    const response = await fetch(`${backend_base_url}/detail/${wine_id}/bookmark/`, {
+        headers: {
+            "content-type": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("access")
+        },
+        method: "POST",
+
+    })
+    if (response.status == 200) {
+        alert(response.data)
     }
-  else{
-    alert(response.status)
-  }
+    else {
+        alert(response.status)
+    }
 
 }
 
-async function commentUpdate(comment_id){
-  alert("수정버튼 눌림")
+async function commentUpdate(comment_id) {
+    alert("수정버튼 눌림")
 
 }
 
-async function commentDelete(wine_id,comment_id){
-  const response = await fetch(`${backend_base_url}/detail/${wine_id}/${comment_id}/`, {
-    headers:{
-    "content-type": "application/json",
-    "Authorization": "Bearer " + localStorage.getItem("access")
-    },
-    method: "Delete",
-    
-  })
-  if (response.status == 200){
-    alert("댓글을 삭제 했습니다.")
+async function commentDelete(wine_id, comment_id) {
+    const response = await fetch(`${backend_base_url}/detail/${wine_id}/${comment_id}/`, {
+        headers: {
+            "content-type": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("access")
+        },
+        method: "Delete",
+
+    })
+    if (response.status == 200) {
+        alert("댓글을 삭제 했습니다.")
     }
-  else{
-    alert(response.status)
-  }
+    else {
+        alert(response.status)
+    }
 
 }
