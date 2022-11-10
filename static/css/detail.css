@@ -62,7 +62,7 @@
 }
 .demo-trigger {
     
-    width: 100px;
+    width: 180px;
     height : 300px;
     float: left;
     margin-right: 20px;
@@ -92,7 +92,7 @@ button {
 
 .button__dark {
   background-color: #6b0909;
-  color: rgb(236, 227, 227);
+  color: rgb(240, 236, 236);
   margin-left: 15px;
   border-radius: 5px;
   font-weight: bold;

@@ -23,6 +23,7 @@ from bs4 import BeautifulSoup as BS
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
+import webbrowser
 import json
 import time
 
@@ -77,10 +78,10 @@ class ViewRecommendWine(APIView):
             taster_name = savecosines(username)
             print(taster_name)
             wine_recommand = Tweet.objects.filter(taster_name = taster_name).order_by('-grade')
-
             if not wine_recommand :
                 userdata = User.objects.get(username = taster_name)
                 wine_recommand = Comment.objects.filter(username_id = userdata.id).order_by('-grade')
+                
                 wine_recommand = wine_recommand[:10]
                 serializer = RecommandCommentSerializer(wine_recommand, many=True)
             
@@ -196,6 +197,9 @@ class SaveList(APIView):
 
                 div_img = soup.select_one('.bRMDJf')
                 img = div_img.select_one('img')['src']
+                chrome_path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
+ 
+                webbrowser.get(chrome_path).open(img)
                 
                 tweet = Tweet.objects.create(name = name, content=content, tag=winetag, country=country, image=img, taster_name = username, grade = grade)
                 tweet.save()
@@ -205,13 +209,4 @@ class SaveList(APIView):
         return Response("저장됨")
 
 
-def read_tweet(request, id):
-    if request.method == 'GET':
-        winedata = Tweet.objects.get(id=id)
-        print(id)
-        print(winedata)
-        # content = winedata.content_set_all()           
-        return render(request, 'read.html',{'tweet': winedata})
-        print(winedata)
-        # return render(request, 'tweet/read.html', {'tweet': click_tweet})
 

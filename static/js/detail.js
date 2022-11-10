@@ -32,18 +32,34 @@ window.onload = async function testbutton(){
           method:'GET',
     })
 
+    
+
     var payload = localStorage.getItem("payload")
     var parsed_payload = await JSON.parse(payload)
+    
+  
+
+    const response_user = await fetch(`${backend_base_url}/user/profile/`, {
+      headers:{
+          'content-type':'application/json',
+          "Authorization": "Bearer " + localStorage.getItem("access")
+      },
+      method:'GET',
+    })
+    
+    response_user_json=await response_user.json()
+    console.log(response_user_json)
+
+    const userImage =document.getElementById("user-img")
+    userImage.setAttribute("src", response_user_json.profile)
+
 
     console.log(parsed_payload)
-
-
 
     response_json=await response.json()
     page_data = response_json
     comment_data = page_data.comment_set
-    console.log(page_data)
-    console.log(comment_data)
+    
 
     const search =document.getElementById("content")
     const winedata = document.createElement("div")
@@ -59,8 +75,8 @@ window.onload = async function testbutton(){
                                     <p>description : ${page_data.content}</p>
                                     <p>contry : ${page_data.country}</p>
                                 </section>
-                                <div class = "button-container">
-                                  <button type = "button" class="button__dark js-button" onclick="bookmark(${page_data.id})">
+                                <div class = "button-container" id="bookmark-button" style="display:none;">
+                                  <button type = "button" class="button__dark js-button" id= "button_dark" onclick="bookmark(${page_data.id})">
                                     <ion-icon name="bookmark" class="icon__dark js-icon" onclick=""></ion-icon>
                                     Bookmark
                                   </button>
@@ -81,7 +97,7 @@ window.onload = async function testbutton(){
                               <div class="comment">
                                 <!-- Comment Avatar -->
                                 <div class="comment-avatar">
-                                  <img src=${element.username.profile}>
+                                  <img src=${element.username.profile} style="height:100%">
                                 </div>
 
                                 <!-- Comment Box -->
@@ -93,11 +109,12 @@ window.onload = async function testbutton(){
                                           <a>${element.username.profilename}</a>
                                         </span>
                                         <span class="comment-date">${element.created_time}</span>
-                                      </div>
-                            
-                                      <div class="comment-actions">
                                         <span>${element.grade}</span>
-                                        <a>Reply</a>
+                                      </div>
+                                      <div class="comment-actions" id="edit-button">
+                                        <a onclick="commentUpdate(${element.id})">Edit</a>
+                                        <span>/</span>
+                                        <a onclick="commentDelete(${page_data.id},${element.id})">delete</a>
                                       </div>
 
                                     </div>
@@ -105,10 +122,45 @@ window.onload = async function testbutton(){
                                 </div>
                               `
         comment_put.prepend(comment_user)
+        const editButton = document.getElementById("edit-button")
+        if(parsed_payload.user_id == element.username.id){
+          editButton.setAttribute("style", "display:flex;")
+        }
+        else{
+          editButton.setAttribute("style", "display:none;")
+        }
       });
 
+    const commentbox = document.getElementById("comment-put")
+    const bookmarkButton = document.getElementById("bookmark-button")
+
+    if(parsed_payload){
+      commentbox.setAttribute("style", "display:block;")
+      commentbox.setAttribute("style", "display:block;")
+      bookmarkButton.setAttribute("style", "display:flex;")
+
+    }
+    else{
+      commentbox.setAttribute("style", "display:none;")
+      bookmarkButton.setAttribute("style", "display:none;")
+      
+    }
 
 
+    // 북마크 UI 기능
+    user_id = parsed_payload.user_id
+    bookmarklist = page_data.bookmark
+
+    test = bookmarklist.indexOf(user_id)
+    
+    if(test == -1){
+      const bookmark_button = document.getElementById("button_dark")
+      bookmark_button.setAttribute("style", "color:gray; background-color:white;")
+    }
+    else{
+      const bookmark_button = document.getElementById("button_dark")
+      bookmark_button.setAttribute("style", "color:#6b0909; background-color:gray;")
+    }
 
 }
 
@@ -157,7 +209,27 @@ async function bookmark(wine_id){
     alert(response.status)
   }
 
+}
 
+async function commentUpdate(comment_id){
+  alert("수정버튼 눌림")
 
+}
+
+async function commentDelete(wine_id,comment_id){
+  const response = await fetch(`${backend_base_url}/detail/${wine_id}/${comment_id}/`, {
+    headers:{
+    "content-type": "application/json",
+    "Authorization": "Bearer " + localStorage.getItem("access")
+    },
+    method: "Delete",
+    
+  })
+  if (response.status == 200){
+    alert("댓글을 삭제 했습니다.")
+    }
+  else{
+    alert(response.status)
+  }
 
 }

@@ -12,7 +12,7 @@ async function loginissue() {
     const password = document.getElementById("password").value
     console.log(username, password)
 
-    const response = await fetch('http://127.0.0.1:8000/user/api/token/', {
+    const response = await fetch(`${backend_base_url}/user/api/token/`, {
         headers:{
         "content-type": "application/json",
         },
@@ -38,12 +38,12 @@ async function loginissue() {
     localStorage.setItem("payload", jsonPayload);
 
     if (response.status == 200){
-		alert(response.status)
+		alert("로그인 완료")
 		console.log(response)
         window.location.replace(`${frontend_base_url}/main.html`);
     }
 	else{
-		alert(response.status)
+		alert("아이디와 비밀번호를 확인해주세요")
 	}
 
 

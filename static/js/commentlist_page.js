@@ -4,8 +4,13 @@ window.onload = () => {
 }
 
 
+const frontend_base_url = "http://127.0.0.1:5500/templates"
+const backend_base_url = "http://127.0.0.1:8000"
+
+
 async function getCommentList() {
-    const response = await fetch("http://127.0.0.1:8000/user/review/", {
+    const response = await fetch(`${backend_base_url}/user/review/`, {
+
         headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('access')
         },
@@ -19,7 +24,9 @@ async function getCommentList() {
         comment.innerHTML = `<li class="list-group-item">
                                 <div class="comment-box">
                                     <div class="comment">
-                                        <a href='http://127.0.0.1:5501/templates/detail.html?id=${element.id}'><p>${element.comment}</p></a>
+
+                                        <a href='${frontend_base_url}/detail.html?id=${element.tweet}'><p>${element.comment}</p></a>
+
                                     </div>
                                     <div class="progress">
                                         <div class="progress-bar" role="progressbar" aria-label="Example with label"
