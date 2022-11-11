@@ -11,7 +11,7 @@
             <button type="button" onclick="searchclick()">검색</button>
         </form>
 
-        <div id="search">   
+        <div id="search">
         </div>
         {% if tweet %}
         <div>
@@ -24,9 +24,10 @@
         <p1>{{ tweet.content }}</p1>
         <div>
         <p1><img src="{{ tweet.image }}"</p1>
-            
+
         {% endif %}
- 
+
 </body>
-</html>
 <script src="{% static 'js/search.js' %}"> </script>
+<script src="../static/js/base_url.js"></script>
+</html>

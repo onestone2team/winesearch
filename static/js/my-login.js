@@ -4,9 +4,6 @@ window.onload = () => {
     console.log("로딩 굿")
 }
 
-const frontend_base_url = "http://127.0.0.1:5500/templates"
-const backend_base_url = "http://127.0.0.1:8000"
-
 async function loginissue() {
     const username = document.getElementById("username").value
     const password = document.getElementById("password").value
@@ -45,6 +42,9 @@ async function loginissue() {
 	else{
 		alert("아이디와 비밀번호를 확인해주세요")
 	}
+    if (window.event.keyCode == 13) {
+        searchclick()
+    }
 
 
 }
@@ -56,7 +56,7 @@ async function signupissue() {
     const email = document.getElementById("email").value;
     const profilename = document.getElementById("profilename").value;
     console.log(username, password, profilename, email);
-	
+
     const response = await fetch(`${backend_base_url}/user/signup/`, {
         headers:{
         "content-type": "application/json",
@@ -79,7 +79,9 @@ async function signupissue() {
 	else{
 		alert(response.status)
 	}
-    
+    if (window.event.keyCode == 13) {
+        searchclick()
+    }
 }
 
 

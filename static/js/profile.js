@@ -1,20 +1,18 @@
-const frontend_base_url = "http://127.0.0.1:5500/templates"
-const backend_base_url = "http://127.0.0.1:8000"
 
-window.onload = async function ViewProfile (){
+window.onload = async function ViewProfile() {
 
     var payload = localStorage.getItem("payload")
     var parsed_payload = await JSON.parse(payload)
 
     const response_user = await fetch(`${backend_base_url}/user/profile/`, {
-      headers:{
-          'content-type':'application/json',
-          "Authorization": "Bearer " + localStorage.getItem("access")
-      },
-      method:'GET',
+        headers: {
+            'content-type': 'application/json',
+            "Authorization": "Bearer " + localStorage.getItem("access")
+        },
+        method: 'GET',
     })
-    
-    response_user_json=await response_user.json()
+
+    response_user_json = await response_user.json()
     console.log(response_user_json)
 
     const element = document.getElementById("username");
@@ -44,7 +42,7 @@ async function updateuser() {
 
     // var payload = localStorage.getItem("payload")
     // var parsed_payload = await JSON.parse(payload)
-    
+
 
     const password = document.getElementById("password").value;
     const password2 = document.getElementById("password2").value;
@@ -61,13 +59,13 @@ async function updateuser() {
     console.log(formData);
 
     fetch(`${backend_base_url}/user/profile/`, {
-        headers:{
+        headers: {
             "Authorization": "Bearer " + localStorage.getItem("access")
-            },
+        },
         method: "PUT",
         body: formData,
-       })
-	
+    })
+
     // const response = await fetch(`${backend_base_url}/user/profile/`, {
     //     headers:{
     //     "content-type": "application/json",
@@ -85,11 +83,11 @@ async function updateuser() {
     // })
 
     // if (response.status == 200){
-	// 	alert(response.status)
+    // 	alert(response.status)
     //     window.location.replace(`${frontend_base_url}/profile.html`);
     // }
-	// else{
-	// 	alert(response.status)
-	// }
-    
+    // else{
+    // 	alert(response.status)
+    // }
+
 }
