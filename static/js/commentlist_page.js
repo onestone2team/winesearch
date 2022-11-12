@@ -16,7 +16,6 @@ async function getCommentList() {
         },
         method: "GET",
     })
-
     comment_data = await response.json()
     frame = document.getElementById('comments')
     comment_data.forEach(element => {
@@ -25,7 +24,7 @@ async function getCommentList() {
                                 <div class="comment-box">
                                     <div class="comment">
 
-                                        <a href='${frontend_base_url}/detail.html?id=${element.tweet}'><p>${element.comment}</p></a>
+                                        <a href='${frontend_base_url}/detail.html?id=${element.Winedata}'><p>${element.Review}</p></a>
 
                                     </div>
                                     <div class="progress">

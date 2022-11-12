@@ -2,30 +2,17 @@ const changeColor = function(element) {
     element.querySelector('.js-icon').classList.toggle("active")
 }
 
-// window.onload = async function checkLogin(){
-  
-//     console.log("load")
 
-
-//     show_tag_fuc() // backend에서 tag 가져오기
-//     all_name = new Array(); // 전체 테그 담을 리스트 선언
-
-    
-
-
-// }
 
 const frontend_base_url = "http://127.0.0.1:5500/templates"
 const backend_base_url = "http://127.0.0.1:8000"
 
 const urlParameter = window.location.search;
-var wine_id = urlParameter.split('=')[1]
+var winedata_id = urlParameter.split('=')[1]
+console.log(winedata_id)
 
 window.onload = async function testbutton(){
-
-    
-
-    const response = await fetch(`${backend_base_url}/detail/${wine_id}/`, {
+    const response = await fetch(`${backend_base_url}/detail/${winedata_id}/`, {
           headers:{
               'content-type':'application/json',
           },
@@ -58,7 +45,7 @@ window.onload = async function testbutton(){
 
     response_json=await response.json()
     page_data = response_json
-    comment_data = page_data.comment_set
+    comment_data = page_data.review_set
     
 
     const search =document.getElementById("content")
@@ -84,9 +71,9 @@ window.onload = async function testbutton(){
                             </div>
                         </div>`
     search.prepend(winedata)
+    console.log(page_data.name)
 
     const comment_put =document.getElementById("commment")
-    const comment_user = document.createElement("div")
 
 
     comment_data.forEach(element => {
@@ -102,7 +89,7 @@ window.onload = async function testbutton(){
 
                                 <!-- Comment Box -->
                                 <div class="comment-box" >
-                                  <div class="comment-text">${element.comment}</div>
+                                  <div class="comment-text">${element.Review}</div>
                                     <div class="comment-footer">
                                       <div class="comment-info">
                                         <span class="comment-author">
@@ -169,14 +156,14 @@ async function addcommend(){
     const grade = document.getElementById("grade_input").value;
     console.log(comment, grade);
 
-    const response = await fetch(`${backend_base_url}/detail/${wine_id}/`, {
+    const response = await fetch(`${backend_base_url}/detail/${winedata_id}/`, {
       headers:{
       "content-type": "application/json",
       "Authorization": "Bearer " + localStorage.getItem("access")
       },
       method: "POST",
       body: JSON.stringify({
-          "comment": comment,
+          "Review": comment,
           "grade": grade
       })
   })
@@ -192,9 +179,9 @@ async function addcommend(){
 
 }
 
-async function bookmark(wine_id){
+async function bookmark(winedata_id){
 
-  const response = await fetch(`${backend_base_url}/detail/${wine_id}/bookmark/`, {
+  const response = await fetch(`${backend_base_url}/detail/${winedata_id}/bookmark/`, {
     headers:{
     "content-type": "application/json",
     "Authorization": "Bearer " + localStorage.getItem("access")
@@ -211,13 +198,15 @@ async function bookmark(wine_id){
 
 }
 
-async function commentUpdate(comment_id){
+async function commentUpdate(review_id){
   alert("수정버튼 눌림")
 
 }
 
-async function commentDelete(wine_id,comment_id){
-  const response = await fetch(`${backend_base_url}/detail/${wine_id}/${comment_id}/`, {
+async function commentDelete(Winedata_id,Review_id){
+  console.log(Winedata_id)
+  console.log(Review_id)
+  const response = await fetch(`${backend_base_url}/detail/${Winedata_id}/${Review_id}/`, {
     headers:{
     "content-type": "application/json",
     "Authorization": "Bearer " + localStorage.getItem("access")
