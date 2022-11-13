@@ -25,18 +25,18 @@ class ViewWinedataDetail(serializers.ModelSerializer):
 class ReviewCreateSerializer(serializers.ModelSerializer):
     class Meta :
         model = Review
-        fields = ("Review","grade")
+        fields = ("review","grade")
 
 class UserReviewSerializer(serializers.ModelSerializer):
 
-    Winedata = serializers.SerializerMethodField()
+    winedata = serializers.SerializerMethodField()
 
-    def get_Winedata(self, obj):
-        return obj.Winedata.id
+    def get_winedata(self, obj):
+        return obj.winedata.id
 
     class Meta :
         model = Review
-        fields = ("id", "Winedata","Review","grade")
+        fields = ("id", "winedata","review","grade")
 
 class RecommandReviewSerializer(serializers.ModelSerializer):
 
@@ -44,7 +44,7 @@ class RecommandReviewSerializer(serializers.ModelSerializer):
 
     class Meta :
         model = Review
-        fields = ("Winedata","Review")
+        fields = ("winedata","review")
 
     
     

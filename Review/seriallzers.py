@@ -7,7 +7,7 @@ from user.serializer import ReviewProfileView
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta :
         model = Review
-        fields = ("id","Review","grade")
+        fields = ("id","review","grade")
 
 
 
@@ -16,5 +16,5 @@ class WinedataReviewSerializer(serializers.ModelSerializer):
 
     class Meta :
         model = Review
-        fields = ("id","username","Review","grade","created_time")
+        fields = ("id","username","review","grade","created_time")
 

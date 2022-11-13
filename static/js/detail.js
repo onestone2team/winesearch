@@ -89,7 +89,7 @@ window.onload = async function testbutton(){
 
                                 <!-- Comment Box -->
                                 <div class="comment-box" >
-                                  <div class="comment-text">${element.Review}</div>
+                                  <div class="comment-text">${element.review}</div>
                                     <div class="comment-footer">
                                       <div class="comment-info">
                                         <span class="comment-author">
