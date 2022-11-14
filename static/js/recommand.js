@@ -1,9 +1,6 @@
 window.onload = () => {
-    console.log('북마크리스트 페이지 요청됨')
+    console.log('추천리스트 페이지 요청됨')
     getBookmarkList()
-    // const url = window.location.href
-    // console.log(url)
-    // http://127.0.0.1:5500/templates/bookmarklist.html#
 }
 
 async function getBookmarkList() {
