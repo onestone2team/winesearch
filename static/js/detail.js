@@ -148,7 +148,6 @@ window.onload = async function testbutton() {
 async function addcommend() {
     const comment = document.getElementById("comment_input").value;
     const grade = document.getElementById("grade_input").value;
-    console.log(comment, grade);
 
     const response = await fetch(`${backend_base_url}/detail/${wine_id}/`, {
         headers: {

@@ -13,7 +13,6 @@ window.onload = async function ViewProfile() {
     })
 
     response_user_json = await response_user.json()
-    console.log(response_user_json)
 
     const element = document.getElementById("username");
     const content = document.createTextNode(response_user_json.username);
@@ -50,13 +49,16 @@ async function updateuser() {
     const profilename = document.getElementById("profilename").value;
     const profile = document.querySelector("input[type='file']");
 
+
     let formData = new FormData();
+    if (profile.value != "") {
+        formData.append('profile', profile.files[0]);
+    }
+
     formData.append("password", password);
     formData.append("password2", password2);
     formData.append("email", email);
-    formData.append('profile', profile.files[0]);
     formData.append("profilename", profilename);
-    console.log(formData);
 
     fetch(`${backend_base_url}/user/profile/`, {
         headers: {

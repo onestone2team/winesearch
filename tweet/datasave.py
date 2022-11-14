@@ -16,5 +16,5 @@ def searchwine(tag):
         return '로제와인'
     elif tag in spacling:
         return '스파클링와인'
-    else : 
+    else :
         return f'미분류{tag}'

@@ -11,7 +11,7 @@ class ViewSerializer(serializers.ModelSerializer):
 
 class ViewSearchSerializer(serializers.ModelSerializer):
 
-    class Meta : 
+    class Meta :
         model = Tweet
         fields = ("id","name","image")
 
@@ -46,5 +46,3 @@ class RecommandCommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = ("tweet","comment")
 
-    
-    

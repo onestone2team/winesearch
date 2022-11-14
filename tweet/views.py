@@ -19,7 +19,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework import viewsets
 from rest_framework import generics
 
-from bs4 import BeautifulSoup as BS    
+from bs4 import BeautifulSoup as BS
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -28,7 +28,7 @@ import json
 import time
 
 # Create your views here.
-        
+
 class ViewSearch(APIView):
     def get(self,request):
         pagination = PageNumberPagination()
@@ -41,10 +41,10 @@ class ViewSearch(APIView):
 
         serializer = ViewSearchSerializer(p, many=True)
         return Response(serializer.data)
-        
+
 # 추가 수정 내용
 class PostViewSet(APIView):
-    
+
     def get(self, request):
         pagination = PageNumberPagination()
         pagination.page_size = 20
@@ -58,7 +58,7 @@ class PostViewSet(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class ViewWineType(APIView):
-# 로제와인, 화이트와인, 레드와인, 스파클링와인 
+# 로제와인, 화이트와인, 레드와인, 스파클링와인
     def get(self, request, wine_type):
         pagination = PageNumberPagination()
         pagination.page_size = 20
@@ -81,14 +81,14 @@ class ViewRecommendWine(APIView):
             if not wine_recommand :
                 userdata = User.objects.get(username = taster_name)
                 wine_recommand = Comment.objects.filter(username_id = userdata.id).order_by('-grade')
-                
+
                 wine_recommand = wine_recommand[:10]
                 serializer = RecommandCommentSerializer(wine_recommand, many=True)
-            
+
             else :
                 wine_recommand = wine_recommand[:10]
                 serializer = ViewSerializer(wine_recommand, many=True)
-                
+
             return Response(serializer.data, status=status.HTTP_200_OK)
         else :
             return Response({"message": "평가한 와인 정보가 없습니다."}, status=status.HTTP_200_OK)
@@ -101,7 +101,7 @@ class ViewWineDetail(APIView):
 
     def post(self, request, wine_id):
         serializer = CommentSerializer(data = request.data)
-        
+
         if serializer.is_valid():
             serializer.save(username = request.user, tweet_id = wine_id)
             wine = Tweet.objects.get(id = wine_id)
@@ -109,7 +109,7 @@ class ViewWineDetail(APIView):
             title = wine.name
             country = wine.country
             taster_name = request.user.username
-            
+
             new_data = {
                 "title":title,
                 "points":point,
@@ -120,14 +120,14 @@ class ViewWineDetail(APIView):
             return Response({"message": "댓글 등록 완료!"}, status=status.HTTP_201_CREATED) #작성이 다 완료가 되면
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) # 작성에 오류가 나면
-            
+
 
 class ViewComment(APIView):
     def get(self, request, comment_id):
         wine = Comment.objects.get(id = comment_id)
         serializer = TweetCommentSerializer(wine)
         return Response(serializer.data, status=status.HTTP_200_OK)
-        
+
 
 class UserCommentView(APIView):
     def get(self, request):
@@ -142,7 +142,7 @@ class UserCommentView(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response({"message": "작성한 글이 없습니다"}, status=status.HTTP_200_OK)
-        
+
 
 class BookmarkListView(APIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -198,9 +198,9 @@ class SaveList(APIView):
                 div_img = soup.select_one('.bRMDJf')
                 img = div_img.select_one('img')['src']
                 chrome_path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
- 
+
                 webbrowser.get(chrome_path).open(img)
-                
+
                 tweet = Tweet.objects.create(name = name, content=content, tag=winetag, country=country, image=img, taster_name = username, grade = grade)
                 tweet.save()
 

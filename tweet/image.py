@@ -1,4 +1,4 @@
-from bs4 import BeautifulSoup as BS    
+from bs4 import BeautifulSoup as BS
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -24,8 +24,8 @@ for i in wine_name:
 
    div_img = soup.select_one('.OUZ5W')
    img = div_img.select_one('img')['src']
-   
+
    print(img)
-   
+
 
 
