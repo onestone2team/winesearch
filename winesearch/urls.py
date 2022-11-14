@@ -38,8 +38,8 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include("tweet.urls")),
-    path('',include('comment.urls') ),
+    path('',include("Winedata.urls")),
+    path('',include('Review.urls') ),
     path('user/', include('user.urls') ),
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

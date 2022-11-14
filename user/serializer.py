@@ -104,7 +104,7 @@ class UserProfileView(serializers.ModelSerializer):
         fields = ('username', 'email', 'profile', 'profilename')
 
 
-class CommentProfileView(serializers.ModelSerializer):
+class ReviewProfileView(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("id", 'profile', 'profilename')

@@ -32,7 +32,7 @@
 	</div>
 	<hr>
 	<div class="comments-app" ng-app="commentsApp" ng-controller="CommentsController as cmntCtrl">
-		<h1>Comments list</h1>
+		<h1>Review list</h1>
 		<!-- From -->
 		<div class="comment-form" id="comment-put">
 			<!-- Comment Avatar -->
@@ -43,7 +43,7 @@
 			<form class="form">
 				<div class="form-row">
 					<textarea class="input" name="comment_input" id="comment_input" ng-model="cmntCtrl.comment.text"
-						placeholder="Add comment..." required></textarea>
+						placeholder="Add Review..." required></textarea>
 				</div>
 				<div class="form-row">
 					<input class="input" name="grade_input" id="grade_input"
@@ -52,7 +52,7 @@
 						type="number">
 				</div>
 				<div class="form-row">
-					<button type="button" onclick="addcommend()">Add Comment</button>
+					<button type="button" onclick="addcommend()">add Review</button>
 				</div>
 			</form>
 		</div>

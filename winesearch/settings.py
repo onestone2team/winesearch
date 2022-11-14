@@ -43,9 +43,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'drf_yasg',
 
-    'tweet',
+    'Winedata',
     'user',
-    'comment',
+    'Review',
     'corsheaders',
 
 ]

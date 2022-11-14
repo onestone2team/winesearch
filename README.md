@@ -66,12 +66,12 @@
   |회원가입|계정 생성|user/signup/|GET,POST|{”username”:usernaeme,”password”:password,”profilename”:profilename,”profile”:profile,”email”:email}|{”username”:usernaeme,”password”:password,”profilename”:profilename,”profile”:profile,”email”:email}|
   |로그아웃|계정 로그아웃|user/logout/|POST|{”username”:username,”password”:password}|로그아웃(HTTP_200_OK)|
   |메인|------|------|------|------|------|
-  |상세 페이지|게시글 상세보기|detail/<int:tweet_id>/|GET|{”name”:name,”tag”:tag,”content”:content,”like”:like}|{”name”:name,”tag”:tag,”content”:content,”like”:like}|
+  |상세 페이지|게시글 상세보기|detail/<int:Review_id>/|GET|{”name”:name,”tag”:tag,”content”:content,”like”:like}|{”name”:name,”tag”:tag,”content”:content,”like”:like}|
   |------|와인 검색|------|GET|{”search”:search}|{”search”:search}|
-  |------|댓글 수정|detail/<int:tweet_id>/|PUT|{”username”:username,”content”:content,”grade”:grade,”created_time:created_time,}|{”username”:username,”content”:content,”grade”:grade,”created_time:created_time}|
-  |------|댓글 삭제|detail/<int:tweet_id>/|DELETE|{”username”:username, ”content”:content,”grade”:grade,”created_time:created_time,}|{”username”:username, ”content”:content,”grade”:grade,”created_time:created_time,}|
-  |------|댓글 작성|detail/<int:tweet_id>/|POST|{”username”:username,”content”:content,”grade”:grade,”created_time:created_time,}|{”username”:username,”content”:content,”grade”:grade,”created_time:created_time,}|
-  |------|북마크추가,삭제|detail/<int:tweet_id>/like/|POST|{”like”:like}|{ “message” : “북마크 성공”}|
+  |------|댓글 수정|detail/<int:Review_id>/|PUT|{”username”:username,”content”:content,”grade”:grade,”created_time:created_time,}|{”username”:username,”content”:content,”grade”:grade,”created_time:created_time}|
+  |------|댓글 삭제|detail/<int:Review_id>/|DELETE|{”username”:username, ”content”:content,”grade”:grade,”created_time:created_time,}|{”username”:username, ”content”:content,”grade”:grade,”created_time:created_time,}|
+  |------|댓글 작성|detail/<int:Review_id>/|POST|{”username”:username,”content”:content,”grade”:grade,”created_time:created_time,}|{”username”:username,”content”:content,”grade”:grade,”created_time:created_time,}|
+  |------|북마크추가,삭제|detail/<int:Review_id>/like/|POST|{”like”:like}|{ “message” : “북마크 성공”}|
   |프로필|프로필 작성및 보기|user/profile/|POST,GET|{”username”:username,”password”:password,”profilename”:profilename,”profile”:profile,”email”:email}|{”username”:username,”password”:password,”profilename”:profilename,”profile”:profile,”email”:email}|
   |------|프로필 수정|user/profile/|PUT|{”username”: usernaeme,”password”: password,”profilename”: profilename,”profile”: profile,”email”:email}|{”username”: usernaeme,”password”: password,”profilename”: profilename,”profile”: profile,”email”:email}|
   |리뷰 페이지|작성한 리뷰 모아보기|user/review/|GET|{”id”:id,”name”:name,”comment”:comment}|{”id”:id,”name”:name,”comment”:comment}|
