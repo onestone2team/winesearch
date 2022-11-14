@@ -104,7 +104,7 @@ class ViewWineDetail(APIView):
         serializer = ReviewSerializer(data = request.data)
         
         if serializer.is_valid():
-            serializer.save(username = request.user, Winedata_id = Winedata_id)
+            serializer.save(username = request.user, winedata_id = Winedata_id)
             wine = Winedata.objects.get(id = Winedata_id)
             point = serializer.data['grade']
             title = wine.name

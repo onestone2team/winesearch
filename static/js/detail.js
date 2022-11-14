@@ -60,7 +60,7 @@ window.onload = async function testbutton(){
                                     <h3>${page_data.name}</h3>
                                     <p>tag : ${page_data.tag}</p>
                                     <p>description : ${page_data.content}</p>
-                                    <p>contry : ${page_data.country}</p>
+                                    <p>country : ${page_data.country}</p>
                                 </section>
                                 <div class = "button-container" id="bookmark-button" style="display:none;">
                                   <button type = "button" class="button__dark js-button" id= "button_dark" onclick="bookmark(${page_data.id})">
@@ -163,7 +163,7 @@ async function addcommend(){
       },
       method: "POST",
       body: JSON.stringify({
-          "Review": comment,
+          "review": comment,
           "grade": grade
       })
   })
