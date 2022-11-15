@@ -82,10 +82,10 @@ class ViewRecommendWine(APIView):
             if not wine_recommand :
                 userdata = User.objects.get(username = taster_name)
                 wine_recommand = Review.objects.filter(username_id = userdata.id).order_by('-grade')
-                
+
                 wine_recommand = wine_recommand[:10]
                 serializer = RecommandReviewSerializer(wine_recommand, many=True)
-            
+
             else :
                 wine_recommand = wine_recommand[:10]
                 serializer = ViewSerializer(wine_recommand, many=True)
@@ -102,7 +102,7 @@ class ViewWineDetail(APIView):
 
     def post(self, request, Winedata_id):
         serializer = ReviewSerializer(data = request.data)
-        
+
         if serializer.is_valid():
             serializer.save(username = request.user, winedata_id = Winedata_id)
             wine = Winedata.objects.get(id = Winedata_id)
@@ -201,7 +201,7 @@ class SaveList(APIView):
                 chrome_path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
 
                 webbrowser.get(chrome_path).open(img)
-                
+
                 winedata = Winedata.objects.create(name = name, content=content, tag=winetag, country=country, image=img, taster_name = username, grade = grade)
                 winedata.save()
 
