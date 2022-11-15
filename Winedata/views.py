@@ -120,7 +120,9 @@ class ViewWineDetail(APIView):
             return Response({"message": "댓글 등록 완료!"}, status=status.HTTP_201_CREATED) #작성이 다 완료가 되면
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) # 작성에 오류가 나면
-            
+    
+    
+    
 
 class ViewReview(APIView):
     def get(self, request, Review_id):
