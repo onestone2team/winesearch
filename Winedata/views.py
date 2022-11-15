@@ -2,12 +2,13 @@ from Winedata.models import Winedata
 from user.models import User
 from Review.seriallzers import ReviewSerializer, WinedataReviewSerializer
 from Review.models import Review
-from . import datasave
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from Winedata.serializer import ViewSerializer, ViewSearchSerializer, ViewWinedataDetail, UserReviewSerializer, RecommandReviewSerializer
+from Winedata.serializer import (ViewSerializer, ViewSearchSerializer, 
+                                ViewWinedataDetail, UserReviewSerializer, 
+                                RecommandReviewSerializer)
 from user.serializer import UserSerializer
-from Winedata.running import savecosines, Editexcel
+from datafile.running import savecosines, editexcel, searchwine
 from django.db.models import Q
 from rest_framework.generics import get_object_or_404
 from rest_framework.decorators import api_view
@@ -26,8 +27,6 @@ from selenium.webdriver.common.by import By
 import webbrowser
 import json
 import time
-
-# Create your views here.
         
 class ViewSearch(APIView):
     def get(self,request):
@@ -117,7 +116,7 @@ class ViewWineDetail(APIView):
                 "country":country,
                 "taster_name":taster_name
             }
-            Editexcel(new_data)
+            editexcel(new_data)
             return Response({"message": "댓글 등록 완료!"}, status=status.HTTP_201_CREATED) #작성이 다 완료가 되면
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) # 작성에 오류가 나면
@@ -169,11 +168,11 @@ class BookmarkView(APIView):
 
 class SaveList(APIView):
     def get(self, request):
-        file_path = "Winedata\sample.json"
+        file_path = "datafile\sample.json"
         with open(file_path, "r") as json_file:
             json_data = json.load(json_file)
             url = "https://www.google.co.kr/imghp?hl=ko&tab=wi&authuser=0&ogbl"
-            driver = webdriver.Chrome('chromedriver.exe')
+            driver = webdriver.Chrome('datafile/chromedriver.exe')
             driver.get(url)
 
             for i in range(len(json_data)):
@@ -185,7 +184,7 @@ class SaveList(APIView):
                 tag = json_data[i]["variety"]
                 data = tag.split(" ")
                 result = data[0]
-                winetag = datasave.searchwine(result)
+                winetag = searchwine(result)
 
                 country = json_data[i]["country"]
 
@@ -199,8 +198,6 @@ class SaveList(APIView):
                 div_img = soup.select_one('.bRMDJf')
                 img = div_img.select_one('img')['src']
                 chrome_path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
- 
-                webbrowser.get(chrome_path).open(img)
                 
                 winedata = Winedata.objects.create(name = name, content=content, tag=winetag, country=country, image=img, taster_name = username, grade = grade)
                 winedata.save()
