@@ -11,6 +11,9 @@ db.sqlite3
 db.sqlite3-journal
 media
 
+user/migrations/
+Winedata/migrations/
+Review/migrations/
 ### secret key
 secrets.json
 # If your build process includes running collectstatic, then you probably don't need or want to include staticfiles/
