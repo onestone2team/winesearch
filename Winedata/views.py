@@ -51,6 +51,7 @@ class PostViewSet(APIView):
         pagination.page_query_param = 'page'
 
         winedata = Winedata.objects.all()
+        total_page = len(winedata)//20
         p = pagination.paginate_queryset(queryset=winedata, request=request)
 
         serializer = ViewSerializer(p, many=True)
@@ -80,19 +81,11 @@ class ViewRecommendWine(APIView):
             wine_recommand = Winedata.objects.filter(taster_name = taster_name).order_by('-grade')
             if not wine_recommand :
                 userdata = User.objects.get(username = taster_name)
-<<<<<<< HEAD:tweet/views.py
-                wine_recommand = Comment.objects.filter(username_id = userdata.id).order_by('-grade')
-
-                wine_recommand = wine_recommand[:10]
-                serializer = RecommandCommentSerializer(wine_recommand, many=True)
-
-=======
                 wine_recommand = Review.objects.filter(username_id = userdata.id).order_by('-grade')
                 
                 wine_recommand = wine_recommand[:10]
                 serializer = RecommandReviewSerializer(wine_recommand, many=True)
             
->>>>>>> 40617be1473112e8ddea800cf34b716ef9dfc81c:Winedata/views.py
             else :
                 wine_recommand = wine_recommand[:10]
                 serializer = ViewSerializer(wine_recommand, many=True)
@@ -105,18 +98,11 @@ class ViewWineDetail(APIView):
     def get(self, request, Winedata_id):
         wine = Winedata.objects.get(id = Winedata_id)
         serializer = ViewWinedataDetail(wine)
-        print(Winedata_id)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-<<<<<<< HEAD:tweet/views.py
-    def post(self, request, wine_id):
-        serializer = CommentSerializer(data = request.data)
-
-=======
     def post(self, request, Winedata_id):
         serializer = ReviewSerializer(data = request.data)
         
->>>>>>> 40617be1473112e8ddea800cf34b716ef9dfc81c:Winedata/views.py
         if serializer.is_valid():
             serializer.save(username = request.user, winedata_id = Winedata_id)
             wine = Winedata.objects.get(id = Winedata_id)
@@ -215,15 +201,9 @@ class SaveList(APIView):
                 chrome_path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
 
                 webbrowser.get(chrome_path).open(img)
-<<<<<<< HEAD:tweet/views.py
-
-                tweet = Tweet.objects.create(name = name, content=content, tag=winetag, country=country, image=img, taster_name = username, grade = grade)
-                tweet.save()
-=======
                 
                 winedata = Winedata.objects.create(name = name, content=content, tag=winetag, country=country, image=img, taster_name = username, grade = grade)
                 winedata.save()
->>>>>>> 40617be1473112e8ddea800cf34b716ef9dfc81c:Winedata/views.py
 
                 time.sleep(0.5)
 

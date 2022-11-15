@@ -46,6 +46,7 @@ async function mainpageMove() {
         },
         method: "GET",
     })
+        console.log(response.data)
         .then(response => {
             return response.json();
         })
@@ -54,7 +55,6 @@ async function mainpageMove() {
             while (wines.hasChildNodes()) {
                 wines.removeChild(wines.firstChild);
             }
-
 
             for (i = 0; i < data.length; i++) {
                 const temp_html = `
@@ -65,9 +65,7 @@ async function mainpageMove() {
                         <div class="card-body" id="winebody">
                             <h5 class="card-title" id="name">${data[i]['name']}</h5>
                         </div>
-                    </div>
-                </div>
-                </div>`;
+                    </div>`;
 
                 const temp = document.createElement('div');
                 temp.className = "col";
@@ -75,7 +73,6 @@ async function mainpageMove() {
                 wines.appendChild(temp);
             }
         });
-    console.log(pageNum)
 }
 
 function pageNext1() {
