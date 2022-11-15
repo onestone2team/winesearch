@@ -100,27 +100,30 @@ class ViewWineDetail(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, Winedata_id):
-        serializer = ReviewSerializer(data = request.data)
-        
-        if serializer.is_valid():
-            serializer.save(username = request.user, winedata_id = Winedata_id)
-            wine = Winedata.objects.get(id = Winedata_id)
-            point = serializer.data['grade']
-            title = wine.name
-            country = wine.country
-            taster_name = request.user.username
-            
-            new_data = {
-                "title":title,
-                "points":point,
-                "country":country,
-                "taster_name":taster_name
-            }
-            editexcel(new_data)
-            return Response({"message": "댓글 등록 완료!"}, status=status.HTTP_201_CREATED) #작성이 다 완료가 되면
+        comment = Review.objects.filter(Q(winedata_id = Winedata_id)&Q(username = request.user))
+        if not comment:
+            serializer = ReviewSerializer(data = request.data)
+
+            if serializer.is_valid():
+                serializer.save(username = request.user, winedata_id = Winedata_id)
+                wine = Winedata.objects.get(id = Winedata_id)
+                point = serializer.data['grade']
+                title = wine.name
+                country = wine.country
+                taster_name = request.user.username
+                
+                new_data = {
+                    "title":title,
+                    "points":point,
+                    "country":country,
+                    "taster_name":taster_name
+                }
+                editexcel(new_data)
+                return Response({"message": "댓글 등록 완료!"}, status=status.HTTP_201_CREATED) #작성이 다 완료가 되면
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) # 작성에 오류가 나면
         else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) # 작성에 오류가 나면
-    
+            return Response({"message": "댓글 중복되었습니다."}, status=status.HTTP_400_BAD_REQUEST)
     
     
 
