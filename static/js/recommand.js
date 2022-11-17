@@ -11,7 +11,7 @@ async function getBookmarkList() {
         },
         method: "GET",
     })
-
+    
     bookmark_data = await response.json()
     frame = document.getElementById('bookmarks')
     bookmark_data.forEach(element => {

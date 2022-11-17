@@ -4,14 +4,14 @@ from Review.models import Review
 from Review.seriallzers import WinedataReviewSerializer
 
 class ViewSerializer(serializers.ModelSerializer):
-    
+
     class Meta :
         model = Winedata
-        fields = ("id","name", "image")
+        fields = ("id","name", "image", )
 
 class ViewSearchSerializer(serializers.ModelSerializer):
 
-    class Meta : 
+    class Meta :
         model = Winedata
         fields = ("id","name","image")
 

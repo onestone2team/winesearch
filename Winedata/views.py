@@ -33,7 +33,7 @@ class ViewSearch(APIView):
     def get(self,request):
         pagination = PageNumberPagination()
         pagination.page_size = 20
-        pagination.page_query_param = 'page'
+        pagination.page_query_param = 'pages'
 
         searchword = request.GET.get('search')
         winedata = Winedata.objects.filter(Q(name__icontains=searchword)|Q(tag__icontains=searchword)|Q(content__icontains=searchword))
@@ -49,14 +49,13 @@ class PostViewSet(APIView):
         pagination = PageNumberPagination()
         pagination.page_size = 20
         pagination.page_query_param = 'page'
-
         winedata = Winedata.objects.all()
-        total_page = len(winedata)//20
+
         p = pagination.paginate_queryset(queryset=winedata, request=request)
 
         serializer = ViewSerializer(p, many=True)
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response({"data":serializer.data, "max_page": len(winedata)//20 +1}, status=status.HTTP_200_OK)
 
 class ViewWineType(APIView):
 # 로제와인, 화이트와인, 레드와인, 스파클링와인
@@ -77,7 +76,6 @@ class ViewRecommendWine(APIView):
         Review_data = Review.objects.filter(username_id = request.user.id)
         if Review_data:
             taster_name = savecosines(username)
-            print(taster_name)
             wine_recommand = Winedata.objects.filter(taster_name = taster_name).order_by('-grade')
             if not wine_recommand :
                 userdata = User.objects.get(username = taster_name)
