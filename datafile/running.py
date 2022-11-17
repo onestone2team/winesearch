@@ -57,14 +57,9 @@ def searchwine(tag):
         return '로제와인'
     elif tag in spacling:
         return '스파클링와인'
-<<<<<<< HEAD:Winedata/datasave.py
     else :
         return f'미분류{tag}'
-=======
-    else : 
-        return f'미분류{tag}'
 
 
 
 
->>>>>>> 9cd69c2446e42f776d128ca9983f0129f21f3384:datafile/running.py
