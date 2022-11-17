@@ -7,6 +7,7 @@ window.onload = () => {
 
 }
 
+
 async function show_tag_fuc() {
     const response = await fetch(`${backend_base_url}/?page=${pageNum}`, {
         headers: {
@@ -19,22 +20,21 @@ async function show_tag_fuc() {
         })
         .then(data => {
             var wines = document.getElementById("wine");
-            for (i = 0; i < data.length; i++) {
+            for (i = 0; i < data["data"].length; i++) {
                 const temp_html = `
                     <div class="card h-100">
-                        <a href="detail.html?id=${data[i]['id']}">
-                        <img style="max-width: 150; height: 150;" src="${data[i]['image']}"
+                        <a href="detail.html?id=${data["data"][i]['id']}">
+                        <img style="max-width: 150; height: 150;" src="${data["data"][i]['image']}"
                             class="card-img-top wine-image" alt="..." id="image" > </a>
                         <div class="card-body" id="winebody">
-                            <h5 class="card-title" id="name">${data[i]['name']}</h5>
+                            <h5 class="card-title" id="name">${data["data"][i]['name']}</h5>
                         </div>
-                    </div>
-                </div>
-                </div>`;
+                    </div>`;
                 const temp = document.createElement('div');
                 temp.className = "col";
                 temp.innerHTML = temp_html;
                 wines.appendChild(temp);
+                total_page = data["max_page"]
             }
         });
 }
@@ -47,27 +47,23 @@ async function mainpageMove() {
         method: "GET",
     })
         .then(response => {
-            return response.json();
+        return response.json();
         })
         .then(data => {
             var wines = document.getElementById("wine");
             while (wines.hasChildNodes()) {
                 wines.removeChild(wines.firstChild);
             }
-
-
-            for (i = 0; i < data.length; i++) {
+            for (i = 0; i < data["data"].length; i++) {
                 const temp_html = `
                     <div class="card h-100" id = "wine_view">
-                        <a href="detail.html?id=${data[i]['id']}">
-                        <img style="width: 200px; height: 300px;" src="${data[i]['image']}"
+                        <a href="detail.html?id=${data["data"][i]['id']}">
+                        <img style="width: 200px; height: 300px;" src="${data["data"][i]['image']}"
                             class="card-img-top" alt="..." id="image" > </a>
                         <div class="card-body" id="winebody">
-                            <h5 class="card-title" id="name">${data[i]['name']}</h5>
+                            <h5 class="card-title" id="name">${data["data"][i]['name']}</h5>
                         </div>
-                    </div>
-                </div>
-                </div>`;
+                    </div>`;
 
                 const temp = document.createElement('div');
                 temp.className = "col";
@@ -75,21 +71,18 @@ async function mainpageMove() {
                 wines.appendChild(temp);
             }
         });
-    console.log(pageNum)
 }
 
 function pageNext1() {
-    ++pageNum
-    mainpageMove()
+    if (pageNum > 0 && pageNum < total_page) {
+        ++pageNum
+        mainpageMove()
+    }
 }
 
 function pagePreview1() {
-    --pageNum
-    mainpageMove()
-
+    if (pageNum > 1) {
+        --pageNum
+        mainpageMove()
+    }
 }
-
-
-
-
-

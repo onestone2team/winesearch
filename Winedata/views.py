@@ -20,19 +20,18 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework import viewsets
 from rest_framework import generics
 
-from bs4 import BeautifulSoup as BS    
+from bs4 import BeautifulSoup as BS
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 import webbrowser
 import json
 import time
-        
 class ViewSearch(APIView):
     def get(self,request):
         pagination = PageNumberPagination()
         pagination.page_size = 20
-        pagination.page_query_param = 'page'
+        pagination.page_query_param = 'pages'
 
         searchword = request.GET.get('search')
         winedata = Winedata.objects.filter(Q(name__icontains=searchword)|Q(tag__icontains=searchword)|Q(content__icontains=searchword))
@@ -40,24 +39,24 @@ class ViewSearch(APIView):
 
         serializer = ViewSearchSerializer(p, many=True)
         return Response(serializer.data)
-        
+
 # 추가 수정 내용
 class PostViewSet(APIView):
-    
+
     def get(self, request):
         pagination = PageNumberPagination()
         pagination.page_size = 20
         pagination.page_query_param = 'page'
-
         winedata = Winedata.objects.all()
+
         p = pagination.paginate_queryset(queryset=winedata, request=request)
 
         serializer = ViewSerializer(p, many=True)
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response({"data":serializer.data, "max_page": len(winedata)//20 +1}, status=status.HTTP_200_OK)
 
 class ViewWineType(APIView):
-# 로제와인, 화이트와인, 레드와인, 스파클링와인 
+# 로제와인, 화이트와인, 레드와인, 스파클링와인
     def get(self, request, wine_type):
         pagination = PageNumberPagination()
         pagination.page_size = 20
@@ -75,19 +74,18 @@ class ViewRecommendWine(APIView):
         Review_data = Review.objects.filter(username_id = request.user.id)
         if Review_data:
             taster_name = savecosines(username)
-            print(taster_name)
             wine_recommand = Winedata.objects.filter(taster_name = taster_name).order_by('-grade')
             if not wine_recommand :
                 userdata = User.objects.get(username = taster_name)
                 wine_recommand = Review.objects.filter(username_id = userdata.id).order_by('-grade')
-                
+
                 wine_recommand = wine_recommand[:10]
                 serializer = RecommandReviewSerializer(wine_recommand, many=True)
-            
+
             else :
                 wine_recommand = wine_recommand[:10]
                 serializer = ViewSerializer(wine_recommand, many=True)
-                
+
             return Response(serializer.data, status=status.HTTP_200_OK)
         else :
             return Response({"message": "평가한 와인 정보가 없습니다."}, status=status.HTTP_200_OK)
@@ -96,7 +94,6 @@ class ViewWineDetail(APIView):
     def get(self, request, Winedata_id):
         wine = Winedata.objects.get(id = Winedata_id)
         serializer = ViewWinedataDetail(wine)
-        print(Winedata_id)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, Winedata_id):
@@ -111,7 +108,6 @@ class ViewWineDetail(APIView):
                 title = wine.name
                 country = wine.country
                 taster_name = request.user.username
-                
                 new_data = {
                     "title":title,
                     "points":point,
@@ -132,7 +128,7 @@ class ViewReview(APIView):
         wine = Review.objects.get(id = Review_id)
         serializer = WinedataReviewSerializer(wine)
         return Response(serializer.data, status=status.HTTP_200_OK)
-        
+
 
 class UserReviewView(APIView):
     def get(self, request):
@@ -147,7 +143,7 @@ class UserReviewView(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response({"message": "작성한 글이 없습니다"}, status=status.HTTP_200_OK)
-        
+
 
 class BookmarkListView(APIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -203,7 +199,6 @@ class SaveList(APIView):
                 div_img = soup.select_one('.bRMDJf')
                 img = div_img.select_one('img')['src']
                 chrome_path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
-                
                 winedata = Winedata.objects.create(name = name, content=content, tag=winetag, country=country, image=img, taster_name = username, grade = grade)
                 winedata.save()
 

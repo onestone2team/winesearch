@@ -5,12 +5,10 @@ window.onload = async function checkLogin(){
     const loginoutUl = document.getElementById("loginout")
 
     if(parsed_payload){
-        console.log(2)
         loginoutUl.innerText="logout"
         loginoutUl.setAttribute("onclick", "handleLogout()")
     }
     else{
-        console.log('3')
         loginoutUl.innerText="login"
         loginoutUl.setAttribute("href", "../templates/signin.html")
     }

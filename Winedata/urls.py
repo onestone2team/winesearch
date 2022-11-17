@@ -1,7 +1,7 @@
 from django.urls import path,include
 from Winedata import views
 from django.conf.urls.static import static
-from django.conf import settings    
+from django.conf import settings
 from rest_framework.urlpatterns import format_suffix_patterns
 
 

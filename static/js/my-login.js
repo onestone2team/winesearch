@@ -42,9 +42,6 @@ async function loginissue() {
 	else{
 		alert("아이디와 비밀번호를 확인해주세요")
 	}
-    if (window.event.keyCode == 13) {
-        searchclick()
-    }
 
 
 }
@@ -80,7 +77,7 @@ async function signupissue() {
 		alert(response.status)
 	}
     if (window.event.keyCode == 13) {
-        searchclick()
+        signupissue()
     }
 }
 
